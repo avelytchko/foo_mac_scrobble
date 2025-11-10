@@ -389,7 +389,7 @@ static std::string mask_show_first_last(const std::string &s, size_t first = 2, 
 
     // Save credentials to configuration and API
     foo_lastfm::cfg_api_key.set(keyStr.c_str());
-    foo_lastfm::cfg_api_secret.set(keyStr.c_str());
+    foo_lastfm::cfg_api_secret.set(secretStr.c_str());
     realApiKey = keyStr;
     realApiSecret = secretStr;
     foo_lastfm::g_lastfm_api->set_credentials(keyStr.c_str(), secretStr.c_str());
