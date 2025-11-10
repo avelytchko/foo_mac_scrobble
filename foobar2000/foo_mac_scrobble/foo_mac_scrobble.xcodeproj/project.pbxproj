@@ -1,0 +1,605 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 90;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		0F1FDDBA2AA0ADDF00DE8967 /* initquit.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0F1FDDB62AA0ADDF00DE8967 /* initquit.cpp */; };
+		0F1FDDBB2AA0ADDF00DE8967 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0F1FDDB72AA0ADDF00DE8967 /* main.cpp */; };
+		0F1FDDC02AA0AE1E00DE8967 /* libfoobar2000_SDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F1FDDBD2AA0AE1E00DE8967 /* libfoobar2000_SDK.a */; };
+		0F1FDDC12AA0AE1E00DE8967 /* libfoobar2000_SDK_helpers.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F1FDDBE2AA0AE1E00DE8967 /* libfoobar2000_SDK_helpers.a */; };
+		0F1FDDC22AA0AE1E00DE8967 /* libpfc-Mac.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F1FDDBF2AA0AE1E00DE8967 /* libpfc-Mac.a */; };
+		0F1FDDC82AA0B1F800DE8967 /* libshared.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F1FDDC72AA0B1F800DE8967 /* libshared.a */; };
+		0F1FDDCA2AA0B1FE00DE8967 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F1FDDC92AA0B1FE00DE8967 /* Cocoa.framework */; };
+		0F1FDDDE2AA0B34200DE8967 /* libfoobar2000_component_client.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F1FDDDD2AA0B34200DE8967 /* libfoobar2000_component_client.a */; };
+		0F62440A2AA1E59E004FEC96 /* preferences.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0F6244072AA1E4F4004FEC96 /* preferences.cpp */; };
+		0F6D10F12AA3C35C00774EED /* fooDecibelFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F6D10EF2AA3C35C00774EED /* fooDecibelFormatter.m */; };
+		0FBE14512AA1E85F00B1F71E /* NSView+embed.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FBE14452AA1E85F00B1F71E /* NSView+embed.m */; };
+		A403F3132EC209D800EC7E57 /* scrobble_queue.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A403F3122EC209D700EC7E57 /* scrobble_queue.cpp */; };
+		A403F3152EC246A200EC7E57 /* session_manager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A403F3142EC246A200EC7E57 /* session_manager.cpp */; };
+		A42871E62EC1083700F8A6EB /* libcurl.4.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = A42871E52EC1083700F8A6EB /* libcurl.4.dylib */; };
+		A42871EC2EC1096B00F8A6EB /* config.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A42871EB2EC1096800F8A6EB /* config.cpp */; };
+		A42871EF2EC1098600F8A6EB /* lastfm_api.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A42871EE2EC1098500F8A6EB /* lastfm_api.cpp */; };
+		A42871F12EC1099500F8A6EB /* play_callback.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A42871F02EC1099400F8A6EB /* play_callback.cpp */; };
+		A42871F52EC109CA00F8A6EB /* fooLastfmMacPreferences.mm in Sources */ = {isa = PBXBuildFile; fileRef = A42871F42EC109C900F8A6EB /* fooLastfmMacPreferences.mm */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		A42871C02EC107B700F8A6EB /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A42871BA2EC107B600F8A6EB /* foobar2000_component_client.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 0F1FDDD42AA0B2FB00DE8967;
+			remoteInfo = foobar2000_component_client;
+		};
+		A42871C82EC107C400F8A6EB /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A42871C22EC107C400F8A6EB /* foobar2000_SDK_helpers.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = B12D1DB11991061A0087CEF3;
+			remoteInfo = foobar2000_SDK_helpers;
+		};
+		A42871D02EC107D800F8A6EB /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A42871CA2EC107D800F8A6EB /* foobar2000_SDK.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = B1DD3657198A721800EF7043;
+			remoteInfo = foobar2000_SDK;
+		};
+		A42871D82EC107E400F8A6EB /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A42871D22EC107E400F8A6EB /* shared.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 0F75F3792A6B1A3900A45078;
+			remoteInfo = shared;
+		};
+		A42871E12EC107F500F8A6EB /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A42871DA2EC107F500F8A6EB /* pfc.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = B1DD35AF198A6FAA00EF7043;
+			remoteInfo = "pfc-Mac";
+		};
+		A42871E32EC107F500F8A6EB /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A42871DA2EC107F500F8A6EB /* pfc.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = B16695F419ACC12A0001728F;
+			remoteInfo = "pfc-iOS";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		0F1FDDAD2AA0AD9B00DE8967 /* foo_mac_scrobble.component */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = foo_mac_scrobble.component; sourceTree = BUILT_PRODUCTS_DIR; };
+		0F1FDDB62AA0ADDF00DE8967 /* initquit.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = initquit.cpp; sourceTree = "<group>"; };
+		0F1FDDB72AA0ADDF00DE8967 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		0F1FDDBD2AA0AE1E00DE8967 /* libfoobar2000_SDK.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libfoobar2000_SDK.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		0F1FDDBE2AA0AE1E00DE8967 /* libfoobar2000_SDK_helpers.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libfoobar2000_SDK_helpers.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		0F1FDDBF2AA0AE1E00DE8967 /* libpfc-Mac.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = "libpfc-Mac.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		0F1FDDC62AA0AF8400DE8967 /* stdafx.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = stdafx.h; sourceTree = "<group>"; };
+		0F1FDDC72AA0B1F800DE8967 /* libshared.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libshared.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		0F1FDDC92AA0B1FE00DE8967 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
+		0F1FDDDD2AA0B34200DE8967 /* libfoobar2000_component_client.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libfoobar2000_component_client.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		0F6244072AA1E4F4004FEC96 /* preferences.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = preferences.cpp; sourceTree = "<group>"; };
+		0F6D10EF2AA3C35C00774EED /* fooDecibelFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = fooDecibelFormatter.m; sourceTree = "<group>"; };
+		0F6D10F02AA3C35C00774EED /* fooDecibelFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = fooDecibelFormatter.h; sourceTree = "<group>"; };
+		0F7F817F2AB87BA70051262F /* foobar2000-mac-class-suffix.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "foobar2000-mac-class-suffix.h"; sourceTree = "<group>"; };
+		0FBE14402AA1E85F00B1F71E /* NSView+embed.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSView+embed.h"; sourceTree = "<group>"; };
+		0FBE14452AA1E85F00B1F71E /* NSView+embed.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSView+embed.m"; sourceTree = "<group>"; };
+		0FBE145E2AA1F74200B1F71E /* readme.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = readme.txt; sourceTree = "<group>"; };
+		A403F2D32EC163ED00EC7E57 /* safe_log_utils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = safe_log_utils.h; sourceTree = "<group>"; };
+		A403F3102EC209C000EC7E57 /* scrobble_queue.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = scrobble_queue.h; sourceTree = "<group>"; };
+		A403F3122EC209D700EC7E57 /* scrobble_queue.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = scrobble_queue.cpp; sourceTree = "<group>"; };
+		A403F3142EC246A200EC7E57 /* session_manager.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = session_manager.cpp; sourceTree = "<group>"; };
+		A403F3162EC246B100EC7E57 /* session_manager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = session_manager.h; sourceTree = "<group>"; };
+		A42871BA2EC107B600F8A6EB /* foobar2000_component_client.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = foobar2000_component_client.xcodeproj; path = ../foobar2000_component_client/foobar2000_component_client.xcodeproj; sourceTree = SOURCE_ROOT; };
+		A42871C22EC107C400F8A6EB /* foobar2000_SDK_helpers.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = foobar2000_SDK_helpers.xcodeproj; path = ../helpers/foobar2000_SDK_helpers.xcodeproj; sourceTree = SOURCE_ROOT; };
+		A42871CA2EC107D800F8A6EB /* foobar2000_SDK.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = foobar2000_SDK.xcodeproj; path = ../SDK/foobar2000_SDK.xcodeproj; sourceTree = SOURCE_ROOT; };
+		A42871D22EC107E400F8A6EB /* shared.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = shared.xcodeproj; path = ../shared/shared.xcodeproj; sourceTree = SOURCE_ROOT; };
+		A42871DA2EC107F500F8A6EB /* pfc.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = pfc.xcodeproj; path = "../..//pfc/pfc.xcodeproj"; sourceTree = "<group>"; };
+		A42871E52EC1083700F8A6EB /* libcurl.4.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libcurl.4.dylib; path = /opt/homebrew/Cellar/curl/8.17.0/lib/libcurl.4.dylib; sourceTree = "<group>"; };
+		A42871E82EC108BC00F8A6EB /* fooLastfmMacPreferences.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = fooLastfmMacPreferences.h; sourceTree = "<group>"; };
+		A42871E92EC108DB00F8A6EB /* config.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = config.h; sourceTree = "<group>"; };
+		A42871EB2EC1096800F8A6EB /* config.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = config.cpp; sourceTree = "<group>"; };
+		A42871ED2EC1097600F8A6EB /* lastfm_api.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = lastfm_api.h; sourceTree = "<group>"; };
+		A42871EE2EC1098500F8A6EB /* lastfm_api.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = lastfm_api.cpp; sourceTree = "<group>"; };
+		A42871F02EC1099400F8A6EB /* play_callback.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = play_callback.cpp; sourceTree = "<group>"; };
+		A42871F42EC109C900F8A6EB /* fooLastfmMacPreferences.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = fooLastfmMacPreferences.mm; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		0F1FDDAA2AA0AD9B00DE8967 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			files = (
+				A42871E62EC1083700F8A6EB /* libcurl.4.dylib in Frameworks */,
+				0F1FDDDE2AA0B34200DE8967 /* libfoobar2000_component_client.a in Frameworks */,
+				0F1FDDCA2AA0B1FE00DE8967 /* Cocoa.framework in Frameworks */,
+				0F1FDDC82AA0B1F800DE8967 /* libshared.a in Frameworks */,
+				0F1FDDC02AA0AE1E00DE8967 /* libfoobar2000_SDK.a in Frameworks */,
+				0F1FDDC12AA0AE1E00DE8967 /* libfoobar2000_SDK_helpers.a in Frameworks */,
+				0F1FDDC22AA0AE1E00DE8967 /* libpfc-Mac.a in Frameworks */,
+			);
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		0F1FDDA42AA0AD9B00DE8967 = {
+			isa = PBXGroup;
+			children = (
+				A42871E92EC108DB00F8A6EB /* config.h */,
+				A42871EB2EC1096800F8A6EB /* config.cpp */,
+				A42871BA2EC107B600F8A6EB /* foobar2000_component_client.xcodeproj */,
+				A42871CA2EC107D800F8A6EB /* foobar2000_SDK.xcodeproj */,
+				A42871C22EC107C400F8A6EB /* foobar2000_SDK_helpers.xcodeproj */,
+				0F7F817F2AB87BA70051262F /* foobar2000-mac-class-suffix.h */,
+				0F1FDDBC2AA0AE1E00DE8967 /* Frameworks */,
+				0FBE14362AA1E85F00B1F71E /* helpers-mac */,
+				0F1FDDB62AA0ADDF00DE8967 /* initquit.cpp */,
+				A42871ED2EC1097600F8A6EB /* lastfm_api.h */,
+				A42871EE2EC1098500F8A6EB /* lastfm_api.cpp */,
+				0FBE14572AA1F41A00B1F71E /* Mac */,
+				0F1FDDB72AA0ADDF00DE8967 /* main.cpp */,
+				A42871DA2EC107F500F8A6EB /* pfc.xcodeproj */,
+				A42871F02EC1099400F8A6EB /* play_callback.cpp */,
+				0F6244072AA1E4F4004FEC96 /* preferences.cpp */,
+				0F1FDDAE2AA0AD9B00DE8967 /* Products */,
+				0FBE145E2AA1F74200B1F71E /* readme.txt */,
+				A403F2D32EC163ED00EC7E57 /* safe_log_utils.h */,
+				A403F3102EC209C000EC7E57 /* scrobble_queue.h */,
+				A403F3122EC209D700EC7E57 /* scrobble_queue.cpp */,
+				A403F3162EC246B100EC7E57 /* session_manager.h */,
+				A403F3142EC246A200EC7E57 /* session_manager.cpp */,
+				A42871D22EC107E400F8A6EB /* shared.xcodeproj */,
+				0F1FDDC62AA0AF8400DE8967 /* stdafx.h */,
+			);
+			sourceTree = "<group>";
+		};
+		0F1FDDAE2AA0AD9B00DE8967 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				0F1FDDAD2AA0AD9B00DE8967 /* foo_mac_scrobble.component */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		0F1FDDBC2AA0AE1E00DE8967 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				A42871E52EC1083700F8A6EB /* libcurl.4.dylib */,
+				0F1FDDDD2AA0B34200DE8967 /* libfoobar2000_component_client.a */,
+				0F1FDDC92AA0B1FE00DE8967 /* Cocoa.framework */,
+				0F1FDDC72AA0B1F800DE8967 /* libshared.a */,
+				0F1FDDBD2AA0AE1E00DE8967 /* libfoobar2000_SDK.a */,
+				0F1FDDBE2AA0AE1E00DE8967 /* libfoobar2000_SDK_helpers.a */,
+				0F1FDDBF2AA0AE1E00DE8967 /* libpfc-Mac.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		0FBE14362AA1E85F00B1F71E /* helpers-mac */ = {
+			isa = PBXGroup;
+			children = (
+				0F6D10F02AA3C35C00774EED /* fooDecibelFormatter.h */,
+				0F6D10EF2AA3C35C00774EED /* fooDecibelFormatter.m */,
+				0FBE14402AA1E85F00B1F71E /* NSView+embed.h */,
+				0FBE14452AA1E85F00B1F71E /* NSView+embed.m */,
+			);
+			name = "helpers-mac";
+			path = "../helpers-mac";
+			sourceTree = "<group>";
+		};
+		0FBE14572AA1F41A00B1F71E /* Mac */ = {
+			isa = PBXGroup;
+			children = (
+				A42871F42EC109C900F8A6EB /* fooLastfmMacPreferences.mm */,
+				A42871E82EC108BC00F8A6EB /* fooLastfmMacPreferences.h */,
+			);
+			path = Mac;
+			sourceTree = "<group>";
+		};
+		A42871BD2EC107B600F8A6EB /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				A42871C12EC107B700F8A6EB /* libfoobar2000_component_client.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		A42871C52EC107C400F8A6EB /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				A42871C92EC107C400F8A6EB /* libfoobar2000_SDK_helpers.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		A42871CD2EC107D800F8A6EB /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				A42871D12EC107D800F8A6EB /* libfoobar2000_SDK.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		A42871D52EC107E400F8A6EB /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				A42871D92EC107E400F8A6EB /* libshared.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		A42871DD2EC107F500F8A6EB /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				A42871E22EC107F500F8A6EB /* libpfc-Mac.a */,
+				A42871E42EC107F500F8A6EB /* libpfc-iOS.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		0F1FDDAC2AA0AD9B00DE8967 /* foo_mac_scrobble */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 0F1FDDB12AA0AD9B00DE8967 /* Build configuration list for PBXNativeTarget "foo_mac_scrobble" */;
+			buildPhases = (
+				0F1FDDA92AA0AD9B00DE8967 /* Sources */,
+				0F1FDDAA2AA0AD9B00DE8967 /* Frameworks */,
+				0F1FDDAB2AA0AD9B00DE8967 /* Resources */,
+			);
+			buildRules = (
+			);
+			name = foo_mac_scrobble;
+			productName = foo_sample;
+			productReference = 0F1FDDAD2AA0AD9B00DE8967 /* foo_mac_scrobble.component */;
+			productType = "com.apple.product-type.bundle";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		0F1FDDA52AA0AD9B00DE8967 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastUpgradeCheck = 2610;
+				TargetAttributes = {
+					0F1FDDAC2AA0AD9B00DE8967 = {
+						CreatedOnToolsVersion = 14.3.1;
+					};
+				};
+			};
+			buildConfigurationList = 0F1FDDA82AA0AD9B00DE8967 /* Build configuration list for PBXProject "foo_mac_scrobble" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 0F1FDDA42AA0AD9B00DE8967;
+			preferredProjectObjectVersion = 90;
+			productRefGroup = 0F1FDDAE2AA0AD9B00DE8967 /* Products */;
+			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = A42871BD2EC107B600F8A6EB /* Products */;
+					ProjectRef = A42871BA2EC107B600F8A6EB /* foobar2000_component_client.xcodeproj */;
+				},
+				{
+					ProductGroup = A42871CD2EC107D800F8A6EB /* Products */;
+					ProjectRef = A42871CA2EC107D800F8A6EB /* foobar2000_SDK.xcodeproj */;
+				},
+				{
+					ProductGroup = A42871C52EC107C400F8A6EB /* Products */;
+					ProjectRef = A42871C22EC107C400F8A6EB /* foobar2000_SDK_helpers.xcodeproj */;
+				},
+				{
+					ProductGroup = A42871DD2EC107F500F8A6EB /* Products */;
+					ProjectRef = A42871DA2EC107F500F8A6EB /* pfc.xcodeproj */;
+				},
+				{
+					ProductGroup = A42871D52EC107E400F8A6EB /* Products */;
+					ProjectRef = A42871D22EC107E400F8A6EB /* shared.xcodeproj */;
+				},
+			);
+			projectRoot = "";
+			targets = (
+				0F1FDDAC2AA0AD9B00DE8967 /* foo_mac_scrobble */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		A42871C12EC107B700F8A6EB /* libfoobar2000_component_client.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libfoobar2000_component_client.a;
+			remoteRef = A42871C02EC107B700F8A6EB /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		A42871C92EC107C400F8A6EB /* libfoobar2000_SDK_helpers.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libfoobar2000_SDK_helpers.a;
+			remoteRef = A42871C82EC107C400F8A6EB /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		A42871D12EC107D800F8A6EB /* libfoobar2000_SDK.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libfoobar2000_SDK.a;
+			remoteRef = A42871D02EC107D800F8A6EB /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		A42871D92EC107E400F8A6EB /* libshared.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libshared.a;
+			remoteRef = A42871D82EC107E400F8A6EB /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		A42871E22EC107F500F8A6EB /* libpfc-Mac.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = "libpfc-Mac.a";
+			remoteRef = A42871E12EC107F500F8A6EB /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		A42871E42EC107F500F8A6EB /* libpfc-iOS.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = "libpfc-iOS.a";
+			remoteRef = A42871E32EC107F500F8A6EB /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
+
+/* Begin PBXResourcesBuildPhase section */
+		0F1FDDAB2AA0AD9B00DE8967 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			files = (
+			);
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		0F1FDDA92AA0AD9B00DE8967 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			files = (
+				0FBE14512AA1E85F00B1F71E /* NSView+embed.m in Sources */,
+				0F6D10F12AA3C35C00774EED /* fooDecibelFormatter.m in Sources */,
+				0F1FDDBB2AA0ADDF00DE8967 /* main.cpp in Sources */,
+				A42871F52EC109CA00F8A6EB /* fooLastfmMacPreferences.mm in Sources */,
+				A42871F12EC1099500F8A6EB /* play_callback.cpp in Sources */,
+				0F62440A2AA1E59E004FEC96 /* preferences.cpp in Sources */,
+				A42871EC2EC1096B00F8A6EB /* config.cpp in Sources */,
+				0F1FDDBA2AA0ADDF00DE8967 /* initquit.cpp in Sources */,
+				A403F3152EC246A200EC7E57 /* session_manager.cpp in Sources */,
+				A42871EF2EC1098600F8A6EB /* lastfm_api.cpp in Sources */,
+				A403F3132EC209D800EC7E57 /* scrobble_queue.cpp in Sources */,
+			);
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		0F1FDDAF2AA0AD9B00DE8967 /* Debug configuration for PBXProject "foo_mac_scrobble" */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = stdafx.h;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					..,
+					../..,
+				);
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+			};
+			name = Debug;
+		};
+		0F1FDDB02AA0AD9B00DE8967 /* Release configuration for PBXProject "foo_mac_scrobble" */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = stdafx.h;
+				GCC_PREPROCESSOR_DEFINITIONS = "NDEBUG=1";
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					..,
+					../..,
+				);
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = macosx;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+			};
+			name = Release;
+		};
+		0F1FDDB22AA0AD9B00DE8967 /* Debug configuration for PBXNativeTarget "foo_mac_scrobble" */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
+				DEVELOPMENT_TEAM = "";
+				GENERATE_INFOPLIST_FILE = YES;
+				HEADER_SEARCH_PATHS = (
+					..,
+					../..,
+					thirdparty,
+					../SDK,
+				);
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INFOPLIST_KEY_NSPrincipalClass = "";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					/opt/homebrew/Cellar/curl/8.17.0/lib,
+				);
+				MACOSX_DEPLOYMENT_TARGET = 15.6;
+				MARKETING_VERSION = 0.1;
+				OTHER_LDFLAGS = "-lcurl";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.foobar2000.foo-mac-scrobble";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				WRAPPER_EXTENSION = component;
+			};
+			name = Debug;
+		};
+		0F1FDDB32AA0AD9B00DE8967 /* Release configuration for PBXNativeTarget "foo_mac_scrobble" */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
+				DEVELOPMENT_TEAM = "";
+				GENERATE_INFOPLIST_FILE = YES;
+				HEADER_SEARCH_PATHS = (
+					..,
+					../..,
+					thirdparty,
+					../SDK,
+				);
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INFOPLIST_KEY_NSPrincipalClass = "";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					/opt/homebrew/Cellar/curl/8.17.0/lib,
+				);
+				MACOSX_DEPLOYMENT_TARGET = 15.6;
+				MARKETING_VERSION = 0.1;
+				OTHER_LDFLAGS = "-lcurl";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.foobar2000.foo-mac-scrobble";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				WRAPPER_EXTENSION = component;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		0F1FDDA82AA0AD9B00DE8967 /* Build configuration list for PBXProject "foo_mac_scrobble" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0F1FDDAF2AA0AD9B00DE8967 /* Debug configuration for PBXProject "foo_mac_scrobble" */,
+				0F1FDDB02AA0AD9B00DE8967 /* Release configuration for PBXProject "foo_mac_scrobble" */,
+			);
+			defaultConfigurationName = Release;
+		};
+		0F1FDDB12AA0AD9B00DE8967 /* Build configuration list for PBXNativeTarget "foo_mac_scrobble" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0F1FDDB22AA0AD9B00DE8967 /* Debug configuration for PBXNativeTarget "foo_mac_scrobble" */,
+				0F1FDDB32AA0AD9B00DE8967 /* Release configuration for PBXNativeTarget "foo_mac_scrobble" */,
+			);
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 0F1FDDA52AA0AD9B00DE8967 /* Project object */;
+}
