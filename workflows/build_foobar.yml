@@ -1,0 +1,74 @@
+name: Build and test foo_mac_scrobble
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+
+jobs:
+  build:
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: |
+          brew install wget cmake ninja
+
+      - name: Ensure Xcode is active
+        run: |
+          sudo xcode-select -s /Applications/Xcode.app/Contents/Developer
+          xcodebuild -version
+
+      - name: Build plugin with Xcode
+        working-directory: foobar2000/foo_mac_scrobble
+        run: |
+          mkdir -p build
+          xcodebuild -project foo_mac_scrobble.xcodeproj \
+            -scheme foo_mac_scrobble \
+            -configuration Release \
+            -derivedDataPath build
+
+      - name: Download foobar2000 for macOS
+        run: |
+          wget -O foobar2000.dmg "https://www.foobar2000.org/downloads/foobar2000-v2.25.3.dmg"
+          hdiutil attach foobar2000.dmg -mountpoint /Volumes/foobar2000
+          sudo cp -R "/Volumes/foobar2000/foobar2000.app" /Applications/
+          hdiutil detach /Volumes/foobar2000
+          rm -f foobar2000.dmg
+
+      - name: Install built component into foobar2000
+        run: |
+          COMPONENT_SRC=$(find foobar2000/foo_mac_scrobble/build -name "foo_mac_scrobble.component" | head -n 1)
+          PLUGINS_DIR="$HOME/Library/foobar2000-v2/user-components/foo_mac_scrobble"
+          mkdir -p "$PLUGINS_DIR"
+          cp -r "$COMPONENT_SRC" "$PLUGINS_DIR/"
+          echo "✅ Installed to $PLUGINS_DIR"
+          ls -la "$PLUGINS_DIR"
+
+      - name: Run foobar2000 in background
+        run: |
+          echo "Launching foobar2000 in background..."
+          /Applications/foobar2000.app/Contents/MacOS/foobar2000 > log.txt 2>&1 &
+          PID=$!
+          echo "foobar2000 PID: $PID"
+          # Give it time to initialize and load components
+          sleep 10
+          echo "Killing foobar2000..."
+          pkill -f foobar2000 || true
+          sleep 2
+          echo "✅ foobar2000 terminated"
+          cat log.txt | tail -n 50
+
+      - name: Verify plugin loaded
+        run: |
+          grep "foo_mac_scrobble" log.txt && echo "✅ Plugin detected in foobar2000 logs" || (echo "❌ Plugin not found" && exit 1)
+
+      - name: Upload logs
+        uses: actions/upload-artifact@v4
+        with:
+          name: foobar2000-logs
+          path: log.txt
+
