@@ -9,6 +9,9 @@ jobs:
   build:
     runs-on: macos-latest
 
+    env:
+      FOOBAR2000_VERSION: "2.25.3"
+
     steps:
       - name: Checkout source
         uses: actions/checkout@v4
@@ -33,7 +36,7 @@ jobs:
 
       - name: Download foobar2000 for macOS
         run: |
-          wget -O foobar2000.dmg "https://www.foobar2000.org/downloads/foobar2000-v2.25.3.dmg"
+          wget -O foobar2000.dmg "https://www.foobar2000.org/downloads/foobar2000-v${FOOBAR2000_VERSION}.dmg"
           hdiutil attach foobar2000.dmg -mountpoint /Volumes/foobar2000
           sudo cp -R "/Volumes/foobar2000/foobar2000.app" /Applications/
           hdiutil detach /Volumes/foobar2000
