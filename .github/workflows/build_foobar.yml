@@ -11,7 +11,7 @@ jobs:
 
     env:
       FOOBAR2000_VERSION: "2.25.3"
-      FOOBAR_WAIT_SECS: 10
+      FOOBAR_WAIT_SECS: 15
 
     steps:
       - name: Checkout source
@@ -60,6 +60,14 @@ jobs:
           echo "✅ Session JSON written:"
           ls -l "$HOME/Library/foobar2000-v2/lastfm_session.json"
 
+      - name: Print environment info
+        run: |
+          sw_vers
+          uname -a
+          echo "Xcode version:"
+          xcodebuild -version
+          echo "Home: $HOME"
+
       - name: 🧪 Run foobar2000 self-test (Last.fm Scrobbler)
         run: |
           LOG_FILE="foobar.log"
@@ -86,6 +94,7 @@ jobs:
             ["Session loaded"]="Last.fm: Session loaded from disk"
             ["Session validated"]="Last.fm: Session key validated"
             ["Authenticated"]="Last.fm Scrobbler: Authenticated as"
+            ["Plugin ready"]="Last.fm Scrobbler: Initialized successfully"
           )
 
           FAILED=0
