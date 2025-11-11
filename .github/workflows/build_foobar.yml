@@ -38,7 +38,7 @@ jobs:
 
       - name: Download foobar2000 for macOS
         run: |
-          wget -O foobar2000.dmg "https://www.foobar2000.org/downloads/foobar2000-v${FOOBAR2000_VERSION}.dmg"
+          wget -q -O foobar2000.dmg "https://www.foobar2000.org/downloads/foobar2000-v${FOOBAR2000_VERSION}.dmg"
           hdiutil attach foobar2000.dmg -mountpoint /Volumes/foobar2000
           sudo cp -R "/Volumes/foobar2000/foobar2000.app" /Applications/
           hdiutil detach /Volumes/foobar2000
