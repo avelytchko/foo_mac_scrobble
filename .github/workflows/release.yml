@@ -1,0 +1,65 @@
+name: Create Release
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+
+jobs:
+  release:
+    runs-on: macos-latest
+    
+    permissions:
+      contents: write
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Extract version from tag
+        id: version
+        run: echo "VERSION=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
+      
+      - name: Install dependencies
+        run: brew install wget
+      
+      - name: Build plugin
+        working-directory: foobar2000/foo_mac_scrobble
+        run: |
+          xcodebuild -project foo_mac_scrobble.xcodeproj \
+            -scheme foo_mac_scrobble \
+            -configuration Release \
+            -derivedDataPath build
+      
+      - name: Create release archive
+        run: |
+          COMPONENT=$(find foobar2000/foo_mac_scrobble/build -name "foo_mac_scrobble.component" | head -n 1)
+          mkdir -p release
+          cp -r "$COMPONENT" release/
+          cd release
+          zip -r ../foo_mac_scrobble-${{ steps.version.outputs.VERSION }}.zip foo_mac_scrobble.component/
+      
+      - name: Create Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: foo_mac_scrobble-${{ steps.version.outputs.VERSION }}.zip
+          body: |
+            ## foo_mac_scrobble ${{ steps.version.outputs.VERSION }}
+
+            ### Installation
+            1. Download the ZIP file below
+            2. Unzip and copy `foo_mac_scrobble.component/` to:
+            ```
+           ~/Library/foobar2000-v2/user-components/foo_mac_scrobble/
+           ```
+            3. Restart foobar2000
+            
+            ### Requirements
+            - macOS 12+
+            - foobar2000 2.25+
+            
+            See [README.md](https://github.com/${{ github.repository }}/blob/main/README.md) for full documentation.
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
