@@ -19,8 +19,8 @@ jobs:
 
     env:
       FOOBAR2000_VERSION: "2.25.3"
-      FOOBAR_WAIT_SECS: 30
-      FOOBAR_LOG_STRINGS: 100
+      FOOBAR_WAIT_SECS: 90
+      FOOBAR_LOG_STRINGS: 250
       FOOBAR_LOG_FILE: "foobar.log"
 
     steps:
@@ -125,7 +125,8 @@ jobs:
           /Applications/foobar2000.app/Contents/MacOS/foobar2000 -i > "$LOG_FILE" 2>&1 &
           FOOBAR_PID=$!
 
-          # Wait a bit for foobar to initialize and log everything
+          # Wait for foobar to initialize and process the scrobble queue
+          # Plugin typically starts processing ~30-40 seconds after startup
           sleep ${FOOBAR_WAIT_SECS}
 
           echo "🧹 Stopping foobar2000..."
