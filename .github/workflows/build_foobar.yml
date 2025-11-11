@@ -32,6 +32,8 @@ jobs:
           sudo xcode-select -s /Applications/Xcode.app/Contents/Developer
           xcodebuild -version
 
+      # Build the foo_mac_scrobble component with debug logging enabled
+      # and inject Last.fm API credentials from secrets
       - name: Build plugin with Xcode
         working-directory: foobar2000/foo_mac_scrobble
         run: |
@@ -42,6 +44,7 @@ jobs:
             -derivedDataPath build \
             OTHER_CPLUSPLUSFLAGS="-DFOO_LASTFM_DEBUG_DEFAULT=1 -DFOO_LASTFM_CI_API_KEY='\"${{ secrets.LASTFM_API_KEY }}\"' -DFOO_LASTFM_CI_API_SECRET='\"${{ secrets.LASTFM_API_SECRET }}\"'"
 
+      # Download and install foobar2000 application
       - name: Download foobar2000 for macOS
         run: |
           wget -q -O foobar2000.dmg "https://www.foobar2000.org/downloads/foobar2000-v${FOOBAR2000_VERSION}.dmg"
@@ -50,6 +53,7 @@ jobs:
           hdiutil detach /Volumes/foobar2000
           rm -f foobar2000.dmg
 
+      # Install the built component into foobar2000's user-components directory
       - name: Install built component into foobar2000
         run: |
           COMPONENT_SRC=$(find foobar2000/foo_mac_scrobble/build -name "foo_mac_scrobble.component" | head -n 1)
@@ -59,6 +63,7 @@ jobs:
           echo "✅ Installed to $PLUGINS_DIR"
           ls -la "$PLUGINS_DIR"
 
+      # Prepare Last.fm session file with authenticated user credentials
       - name: Prepare Last.fm session
         run: |
           mkdir -p "$HOME/Library/foobar2000-v2"
@@ -66,36 +71,38 @@ jobs:
           echo "✅ Session JSON written:"
           ls -l "$HOME/Library/foobar2000-v2/lastfm_session.json"
 
+      # Generate scrobble queue with dynamic timestamps to simulate recent playback
+      # Each track gets a timestamp offset by 1 minute + random 10-20 seconds from the previous
       - name: Generate dynamic Last.fm queue
         run: |
           echo "🕒 Generating dynamic timestamps for scrobble queue..."
           
-          # Create queue template from secret
           TEMPLATE="/tmp/queue-template.json"
           OUTPUT="$HOME/Library/foobar2000-v2/lastfm_scrobble_queue.json"
           
           echo '${{ secrets.LASTFM_SCROBBLE_QUEUE_JSON }}' > "$TEMPLATE"
           
-          # Get current Unix timestamp
           NOW=$(date +%s)
+          echo "Current timestamp: $NOW ($(date -r $NOW))"
           
-          # Generate new timestamps starting from bottom (each track -1 minute + random 10-20 seconds)
+          # Generate timestamps: first track is oldest, last track is most recent
           jq --argjson now "$NOW" '
+            (.queue | length) as $len |
             .queue |= (
-              reverse | to_entries | map(
-                .value.timestamp = ($now - (60 * .key) - (10 + (.key % 11))) |
+              to_entries | map(
+                .value.timestamp = ($now - (($len - 1 - .key) * 60) - (10 + (.key % 11))) |
                 .value.last_attempt = 0 |
                 .value.retry_count = 0
-              ) | reverse | map(.value)
+              ) | map(.value)
             )
           ' "$TEMPLATE" > "$OUTPUT"
           
-          echo "✅ Queue with dynamic timestamps generated:"
           echo ""
+          echo "✅ Queue with dynamic timestamps generated:"
           jq -r '.queue[] | "  \(.artist) - \(.track) (timestamp: \(.timestamp))"' "$OUTPUT"
           echo ""
-          echo "📋 First 3 tracks from queue file:"
-          jq '.queue[:3]' "$OUTPUT"
+          echo "📋 Verification - oldest and newest tracks:"
+          jq '.queue | [first, last] | .[] | {artist, track, timestamp}' "$OUTPUT"
 
       - name: Print environment info
         run: |
@@ -105,6 +112,11 @@ jobs:
           xcodebuild -version
           echo "Home: $HOME"
 
+      # Run foobar2000 with the plugin and validate that:
+      # 1. Plugin initializes correctly
+      # 2. Session authentication works
+      # 3. Queue is loaded and processed
+      # 4. Scrobbling succeeds
       - name: 🧪 Run foobar2000 self-test (Last.fm Scrobbler)
         run: |
           LOG_FILE="${FOOBAR_LOG_FILE}"
@@ -129,6 +141,7 @@ jobs:
 
           FAILED=0
 
+          # Helper function to check if a pattern exists in the log file
           check_pattern() {
             local label="$1"
             local pattern="$2"
@@ -140,11 +153,14 @@ jobs:
             fi
           }
 
+          # Verify plugin initialization
           check_pattern "API init" "Last.fm: LastfmApi instance created"
           check_pattern "Session loaded" "Last.fm: Session loaded from disk"
           check_pattern "Session validated" "Last.fm: Session key validated"
           check_pattern "Authenticated" "Last.fm Scrobbler: Authenticated as"
           check_pattern "Plugin ready" "Last.fm Scrobbler: Initialized successfully"
+          
+          # Verify queue operations
           check_pattern "Queue loaded" "Last.fm: Successfully loaded 10 tracks from queue file"
           check_pattern "Queue initialized" "Last.fm: Queue initialized, 10 tracks loaded"
           check_pattern "Queue processing" "Last.fm: Processing queue with 10 tracks"
@@ -161,7 +177,9 @@ jobs:
             exit 1
           fi
 
+      # Upload the log file as an artifact for debugging if needed
       - name: Upload logs
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: foobar-log
