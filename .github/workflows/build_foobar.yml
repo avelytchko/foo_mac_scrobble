@@ -25,9 +25,9 @@ jobs:
       - name: Checkout source
         uses: actions/checkout@v4
 
-      - name: Install dependencies
-        run: |
-          brew install wget cmake ninja
+      # - name: Install dependencies
+      #   run: |
+      #     brew install wget cmake ninja
 
       - name: Ensure Xcode is active
         run: |
@@ -73,6 +73,7 @@ jobs:
           echo '${{ secrets.LASTFM_SCROBBLE_QUEUE_JSON }}' > "$HOME/Library/foobar2000-v2/lastfm_scrobble_queue.json"
           echo "✅ Queue JSON written:"
           ls -l "$HOME/Library/foobar2000-v2/lastfm_scrobble_queue.json"
+          cat "$HOME/Library/foobar2000-v2/lastfm_scrobble_queue.json"
 
       - name: Print environment info
         run: |
@@ -84,6 +85,9 @@ jobs:
 
       - name: 🧪 Run foobar2000 self-test (Last.fm Scrobbler)
         run: |
+          set -euo pipefail
+          set -x
+
           LOG_FILE="foobar.log"
 
           echo "🚀 Launching foobar2000 in background..."
@@ -127,6 +131,7 @@ jobs:
               FAILED=1
             fi
           done
+
 
           echo ""
           if [ "$FAILED" -eq 0 ]; then
