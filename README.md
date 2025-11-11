@@ -66,15 +66,15 @@ Open **Preferences → Tools → Last.fm Scrobbler**
 
 **Preferences UI**
 
-![Preferences](docs/images/preferences.png)
+![Preferences](docs/images/preferences.jpg)
 
 **Authentication Flow**
 
-![Auth Flow](docs/images/auth_flow.png)
+![Auth Flow](docs/images/auth_flow.jpg)
 
 **Debug Console**
 
-![Console](docs/images/console_log.png)
+![Console](docs/images/console_log.jpg)
 
 ---
 
