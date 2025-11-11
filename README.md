@@ -26,7 +26,7 @@
 - [🧩 Repository Structure](#-repository-structure)
 - [🧠 Technical Overview](#-technical-overview)
 - [🧹 Clearing Cache / Troubleshooting](#-clearing-cache--troubleshooting)
-- [⚖️ License](#-license)
+- [⚖️ License <span id="license"></span>](#-license-span-idlicensespan)
 - [💬 Credits](#-credits)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
