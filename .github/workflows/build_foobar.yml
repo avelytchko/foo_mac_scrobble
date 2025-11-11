@@ -20,14 +20,12 @@ jobs:
     env:
       FOOBAR2000_VERSION: "2.25.3"
       FOOBAR_WAIT_SECS: 30
+      FOOBAR_LOG_STRINGS: 100
+      FOOBAR_LOG_FILE: "foobar.log"
 
     steps:
       - name: Checkout source
         uses: actions/checkout@v4
-
-      # - name: Install dependencies
-      #   run: |
-      #     brew install wget cmake ninja
 
       - name: Ensure Xcode is active
         run: |
@@ -73,7 +71,6 @@ jobs:
           echo '${{ secrets.LASTFM_SCROBBLE_QUEUE_JSON }}' > "$HOME/Library/foobar2000-v2/lastfm_scrobble_queue.json"
           echo "✅ Queue JSON written:"
           ls -l "$HOME/Library/foobar2000-v2/lastfm_scrobble_queue.json"
-          cat "$HOME/Library/foobar2000-v2/lastfm_scrobble_queue.json"
 
       - name: Print environment info
         run: |
@@ -85,10 +82,7 @@ jobs:
 
       - name: 🧪 Run foobar2000 self-test (Last.fm Scrobbler)
         run: |
-          set -euo pipefail
-          set -x
-
-          LOG_FILE="foobar.log"
+          LOG_FILE="${FOOBAR_LOG_FILE}"
 
           echo "🚀 Launching foobar2000 in background..."
           /Applications/foobar2000.app/Contents/MacOS/foobar2000 > "$LOG_FILE" 2>&1 &
@@ -102,28 +96,31 @@ jobs:
 
           echo ""
           echo "==== 📜 Foobar2000 log output (tail) ===="
-          cat "$LOG_FILE" || tail -n 50 "$LOG_FILE"
+          tail -n ${FOOBAR_LOG_STRINGS} "$LOG_FILE" || cat "$LOG_FILE"
           echo "========================================="
           echo ""
 
           echo "🔍 Checking for expected log patterns..."
-          declare -A CHECKS=(
-            ["API init"]="Last.fm: LastfmApi instance created"
-            ["Session loaded"]="Last.fm: Session loaded from disk"
-            ["Session validated"]="Last.fm: Session key validated"
-            ["Authenticated"]="Last.fm Scrobbler: Authenticated as"
-            ["Plugin ready"]="Last.fm Scrobbler: Initialized successfully"
-            ["Queue loaded"]="Last.fm: Successfully loaded 10 tracks from queue file"
-            ["Queue initialized"]="Last.fm: Queue initialized, 10 tracks loaded"
-            ["Queue processing"]="Last.fm: Processing queue with 10 tracks"
-            ["Queue scrobbled"]="Last.fm: Successfully scrobbled from queue"
-            ["Queue processed"]="Last.fm: Processed 10 tracks this cycle"
-            ["Queue saved"]="Last.fm: Successfully saved queue to disk"
+
+          CHECKS=(
+            "API init|Last.fm: LastfmApi instance created"
+            "Session loaded|Last.fm: Session loaded from disk"
+            "Session validated|Last.fm: Session key validated"
+            "Authenticated|Last.fm Scrobbler: Authenticated as"
+            "Plugin ready|Last.fm Scrobbler: Initialized successfully"
+            "Queue loaded|Last.fm: Successfully loaded 10 tracks from queue file"
+            "Queue initialized|Last.fm: Queue initialized, 10 tracks loaded"
+            "Queue processing|Last.fm: Processing queue with 10 tracks"
+            "Queue scrobbled|Last.fm: Successfully scrobbled from queue"
+            "Queue processed|Last.fm: Processed 10 tracks this cycle"
+            "Queue saved|Last.fm: Successfully saved queue to disk"
           )
 
           FAILED=0
-          for LABEL in "${!CHECKS[@]}"; do
-            PATTERN="${CHECKS[$LABEL]}"
+          for ITEM in "${CHECKS[@]}"; do
+            LABEL="${ITEM%%|*}"
+            PATTERN="${ITEM#*|}"
+
             if grep -q "$PATTERN" "$LOG_FILE"; then
               echo "✅ $LABEL — found"
             else
@@ -131,7 +128,6 @@ jobs:
               FAILED=1
             fi
           done
-
 
           echo ""
           if [ "$FAILED" -eq 0 ]; then
@@ -146,5 +142,5 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: foobar-log
-          path: foobar.log
+          path: "${FOOBAR_LOG_FILE}"
 
