@@ -37,8 +37,17 @@ namespace foo_lastfm {
     cfg_int cfg_scrobble_percent(guid_cfg_scrobble_percent, 50);
     // Initialize scrobbling enabled flag (default: true)
     cfg_bool cfg_enabled(guid_cfg_enabled, true);
-    // Initialize debug logging enabled flag (default: false)
+    // Initialize debug logging enabled flag
+    // Default: controlled by compile-time flag FOO_LASTFM_DEBUG_DEFAULT
+    #ifndef FOO_LASTFM_DEBUG_DEFAULT
+    #define FOO_LASTFM_DEBUG_DEFAULT 0
+    #endif
+
+    #if FOO_LASTFM_DEBUG_DEFAULT
+    cfg_bool cfg_debug_enabled(guid_cfg_debug_enabled, true);
+    #else
     cfg_bool cfg_debug_enabled(guid_cfg_debug_enabled, false);
+    #endif
 }
 
     // Export the GUID for external use
