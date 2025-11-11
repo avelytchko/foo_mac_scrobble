@@ -172,7 +172,7 @@ find build -name "foo_mac_scrobble.component" -exec cp -r {} \
 
 ### 🧪 CI / GitHub Actions
 
-The repository includes a full workflow (`.github/workflows/build.yml`) that:
+The repository includes a full workflow (`.github/workflows/build_foobar.yml`) that:
 
 - Builds the plugin via Xcode on `macos-latest`
 - Downloads foobar2000
@@ -180,7 +180,7 @@ The repository includes a full workflow (`.github/workflows/build.yml`) that:
 - Runs a self-test verifying Last.fm API initialization and queue processing
 - Uploads build logs as artifacts
 
-See [workflow source](.github/workflows/build.yml) for details.
+See [workflow source](.github/workflows/build_foobar.yml) for details.
 
 ---
 
