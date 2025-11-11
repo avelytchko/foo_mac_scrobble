@@ -4,6 +4,9 @@ on:
   push:
     tags:
       - 'v*.*.*'
+    paths-ignore:
+      - 'docs/**'
+      - '*.md'
 
 jobs:
   release:
@@ -40,24 +43,24 @@ jobs:
           zip -r ../foo_mac_scrobble-${{ steps.version.outputs.VERSION }}.zip foo_mac_scrobble.component/
       
       - name: Create Release
-        uses: softprops/action-gh-release@v1
+        uses: softprops/action-gh-release@v2
         with:
           files: foo_mac_scrobble-${{ steps.version.outputs.VERSION }}.zip
           body: |
             ## foo_mac_scrobble ${{ steps.version.outputs.VERSION }}
 
             ### Installation
-            1. Download the ZIP file below
+            1. Download the ZIP file below  
             2. Unzip and copy `foo_mac_scrobble.component/` to:
             ```
-           ~/Library/foobar2000-v2/user-components/foo_mac_scrobble/
-           ```
+            ~/Library/foobar2000-v2/user-components/foo_mac_scrobble/
+            ```
             3. Restart foobar2000
-            
+
             ### Requirements
             - macOS 12+
             - foobar2000 2.25+
-            
+
             See [README.md](https://github.com/${{ github.repository }}/blob/main/README.md) for full documentation.
           draft: false
           prerelease: false
