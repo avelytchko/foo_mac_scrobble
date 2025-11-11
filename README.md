@@ -214,6 +214,11 @@ See [LICENSE](LICENSE) for details.
 
 ---
 
+> 🧠 Developed in a vibe-coding workflow — collaboratively between human insight and LLM assistance.  
+> The result: a stable, native macOS foobar2000 component that balances rapid prototyping with real engineering discipline.
+
+---
+
 ## 💬 Credits
 
 - [foobar2000 SDK](https://www.foobar2000.org/SDK)
