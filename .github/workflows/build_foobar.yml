@@ -102,19 +102,19 @@ jobs:
 
           echo "🔍 Checking for expected log patterns..."
 
-          CHECKS=(
-            "API init|Last.fm: LastfmApi instance created"
-            "Session loaded|Last.fm: Session loaded from disk"
-            "Session validated|Last.fm: Session key validated"
-            "Authenticated|Last.fm Scrobbler: Authenticated as"
-            "Plugin ready|Last.fm Scrobbler: Initialized successfully"
-            "Queue loaded|Last.fm: Successfully loaded 10 tracks from queue file"
-            "Queue initialized|Last.fm: Queue initialized, 10 tracks loaded"
-            "Queue processing|Last.fm: Processing queue with 10 tracks"
-            "Queue scrobbled|Last.fm: Successfully scrobbled from queue"
-            "Queue processed|Last.fm: Processed 10 tracks this cycle"
-            "Queue saved|Last.fm: Successfully saved queue to disk"
-          )
+          declare -A CHECKS=(
+            ["API init"]="Last.fm: LastfmApi instance created"
+            ["Session loaded"]="Last.fm: Session loaded from disk"
+            ["Session validated"]="Last.fm: Session key validated"
+            ["Authenticated"]="Last.fm Scrobbler: Authenticated as"
+            ["Plugin ready"]="Last.fm Scrobbler: Initialized successfully"
+            ["Queue loaded"]="Last.fm: Successfully loaded 10 tracks from queue file"
+            ["Queue initialized"]="Last.fm: Queue initialized, 10 tracks loaded"
+            ["Queue processing"]="Last.fm: Processing queue with 10 tracks"
+            ["Queue scrobbled"]="Last.fm: Successfully scrobbled from queue"
+            ["Queue processed"]="Last.fm: Processed 10 tracks this cycle"
+            ["Queue saved"]="Last.fm: Successfully saved queue to disk"
+            )
 
           FAILED=0
           for ITEM in "${CHECKS[@]}"; do
@@ -143,4 +143,3 @@ jobs:
         with:
           name: foobar-log
           path: "${FOOBAR_LOG_FILE}"
-
