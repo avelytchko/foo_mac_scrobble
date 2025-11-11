@@ -85,7 +85,7 @@ jobs:
           LOG_FILE="${FOOBAR_LOG_FILE}"
 
           echo "🚀 Launching foobar2000 in background..."
-          /Applications/foobar2000.app/Contents/MacOS/foobar2000 > "$LOG_FILE" 2>&1 &
+          /Applications/foobar2000.app/Contents/MacOS/foobar2000 -i > "$LOG_FILE" 2>&1 &
           FOOBAR_PID=$!
 
           # Wait a bit for foobar to initialize and log everything
@@ -142,4 +142,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: foobar-log
-          path: "${FOOBAR_LOG_FILE}"
+          path: ${{ env.FOOBAR_LOG_FILE }}
