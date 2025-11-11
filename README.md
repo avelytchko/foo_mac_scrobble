@@ -20,14 +20,24 @@
 
 ## 📦 Installation
 
-### Option 1 — Install the Release (Recommended)
+### Download the Release
 
 1. Download the latest release ZIP from [👉 Releases](../../releases)
 2. Unzip it — it will contain:
    ```
    foo_mac_scrobble.component/
    ```
-3. Copy the folder into your foobar2000 user components directory:
+
+### Recommended — Install via foobar2000 Preferences
+1. Open foobar2000 → Preferences → Components
+2. Click the “+” button in the bottom-right corner
+3. Select the extracted component folder:
+   ```
+   foo_mac_scrobble.component/
+   ```
+
+### Manual Installation (Alternative)
+1. Copy the extracted component folder into your foobar2000 user components directory:
    ```
    ~/Library/foobar2000-v2/user-components/foo_mac_scrobble/
    ```
