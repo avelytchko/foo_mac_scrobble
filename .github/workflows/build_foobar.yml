@@ -20,7 +20,7 @@ jobs:
     env:
       FOOBAR2000_VERSION: "2.25.3"
       FOOBAR_WAIT_SECS: 120
-      FOOBAR_LOG_STRINGS: 250
+      FOOBAR_LOG_STRINGS: 500
       FOOBAR_LOG_FILE: "foobar.log"
 
     steps:
@@ -32,17 +32,47 @@ jobs:
           sudo xcode-select -s /Applications/Xcode.app/Contents/Developer
           xcodebuild -version
 
+      - name: Install build dependencies
+        run: |
+          brew install xcpretty
+
       # Build the foo_mac_scrobble component with debug logging enabled
       # and inject Last.fm API credentials from secrets
       - name: Build plugin with Xcode
         working-directory: foobar2000/foo_mac_scrobble
         run: |
+          echo "::group::🧩 Xcode Build"
           mkdir -p build
+          set -o pipefail
           xcodebuild -project foo_mac_scrobble.xcodeproj \
             -scheme foo_mac_scrobble \
             -configuration Release \
             -derivedDataPath build \
-            OTHER_CPLUSPLUSFLAGS="-DFOO_LASTFM_DEBUG_DEFAULT=1 -DFOO_LASTFM_CI_API_KEY='\"${{ secrets.LASTFM_API_KEY }}\"' -DFOO_LASTFM_CI_API_SECRET='\"${{ secrets.LASTFM_API_SECRET }}\"'"
+            OTHER_CPLUSPLUSFLAGS="-DFOO_LASTFM_DEBUG_DEFAULT=1 \
+            -DFOO_LASTFM_CI_API_KEY='\"${{ secrets.LASTFM_API_KEY }}\"' \
+            -DFOO_LASTFM_CI_API_SECRET='\"${{ secrets.LASTFM_API_SECRET }}\"'" \
+            | xcpretty --color --simple
+          echo "::endgroup::"
+
+      - name: 📦 Show build output
+        run: |
+          echo "::group::📦 Build Artifacts"
+          find foobar2000/foo_mac_scrobble/build -type f -name "*.component"
+          echo "::endgroup::"
+
+      - name: ⚠️ Check for build warnings
+        run: |
+          echo "::group::⚠️ Build Warnings"
+          WARNINGS=$(grep -i "warning:" <(xcodebuild -project foobar2000/foo_mac_scrobble/foo_mac_scrobble.xcodeproj \
+            -scheme foo_mac_scrobble \
+            -configuration Release 2>&1) || true)
+          if [ -n "$WARNINGS" ]; then
+            echo "Warnings found:"
+            echo "$WARNINGS" | head -n 20
+          else
+            echo "✅ No warnings detected."
+          fi
+          echo "::endgroup::"
 
       # Download and install foobar2000 application
       - name: Download foobar2000 for macOS
