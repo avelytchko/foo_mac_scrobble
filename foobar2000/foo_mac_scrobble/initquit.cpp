@@ -164,7 +164,7 @@ public:
                 }
             } else {
                 FB2K_console_formatter()
-                    << "Last.fm Scrobbler: Not authenticated — please configure in preferences";
+                    << "Last.fm Scrobbler: Not authenticated - please configure in preferences";
             }
         }
 

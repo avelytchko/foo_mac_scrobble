@@ -71,7 +71,7 @@ void ScrobbleQueue::process_queue() {
     if (!online) {
         if (cfg_debug_enabled.get() && !m_network_was_unavailable) {
             FB2K_console_formatter()
-                << "Last.fm: Network unavailable — scrobbling paused ("
+                << "Last.fm: Network unavailable - scrobbling paused ("
                 << m_queue.size() << " tracks stored offline). "
                 << "New tracks will continue to be queued and saved to disk until connection is restored.";
         }
@@ -81,7 +81,7 @@ void ScrobbleQueue::process_queue() {
         m_network_was_unavailable = false;
         if (cfg_debug_enabled.get()) {
             FB2K_console_formatter()
-                << "Last.fm: Network connection restored — resuming queued scrobbles ("
+                << "Last.fm: Network connection restored - resuming queued scrobbles ("
                 << m_queue.size() << " tracks pending).";
         }
     }
@@ -119,7 +119,7 @@ void ScrobbleQueue::process_queue() {
 
         if (success) {
             FB2K_console_formatter()
-                << "Last.fm Scrobbler: Scrobbled successfully — "
+                << "Last.fm Scrobbler: Scrobbled successfully - "
                 << queued.artist.c_str() << " - " << queued.track.c_str();
             if (cfg_debug_enabled.get()) {
                 FB2K_console_formatter()
@@ -128,7 +128,7 @@ void ScrobbleQueue::process_queue() {
             }
         } else {
             FB2K_console_formatter()
-                << "Last.fm Scrobbler: Failed to scrobble — "
+                << "Last.fm Scrobbler: Failed to scrobble - "
                 << queued.artist.c_str() << " - " << queued.track.c_str();
             queued.retry_count++;
             queued.last_attempt = now;
@@ -144,7 +144,7 @@ void ScrobbleQueue::process_queue() {
         if (++processed >= kMaxPerRun) {
             if (cfg_debug_enabled.get()) {
                 FB2K_console_formatter()
-                    << "Last.fm: Processed " << processed << " tracks this cycle — will continue later.";
+                    << "Last.fm: Processed " << processed << " tracks this cycle - will continue later.";
             }
             remaining.insert(remaining.end(), std::next(&queued), &m_queue.back() + 1);
             break;

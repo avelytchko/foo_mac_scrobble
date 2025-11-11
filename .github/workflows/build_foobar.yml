@@ -147,9 +147,9 @@ jobs:
             local label="$1"
             local pattern="$2"
             if grep -qF "$pattern" "$LOG_FILE"; then
-              echo "✅ $label — found"
+              echo "✅ $label - found"
             else
-              echo "❌ $label — missing"
+              echo "❌ $label - missing"
               FAILED=1
             fi
           }
