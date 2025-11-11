@@ -7,11 +7,13 @@ on:
       - 'docs/**'
       - '*.md'
       - workflows/release.yml
+      - workflows/update_toc.yml
   pull_request:
     paths-ignore:
       - 'docs/**'
       - '*.md'
       - workflows/release.yml
+      - workflows/update_toc.yml
 
 jobs:
   build:
