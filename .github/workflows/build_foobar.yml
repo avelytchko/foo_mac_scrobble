@@ -34,7 +34,7 @@ jobs:
 
       - name: Install build dependencies
         run: |
-          brew install xcpretty
+          sudo gem install xcpretty
 
       # Build the foo_mac_scrobble component with debug logging enabled
       # and inject Last.fm API credentials from secrets
