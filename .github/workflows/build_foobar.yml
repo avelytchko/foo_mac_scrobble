@@ -233,5 +233,5 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: foobar-log
+          name: foobar_log
           path: ${{ env.FOOBAR_LOG_FILE }}

@@ -3,6 +3,10 @@
 > Native macOS **Last.fm scrobbler plugin** for [foobar2000](https://www.foobar2000.org/mac).  
 > Built with the official foobar2000 SDK and Cocoa (Objective-C++), featuring native preferences UI, offline queueing, async networking, and full Last.fm API support.
 
+## 📚 Table of Contents
+<!-- START doctoc -->
+<!-- END doctoc -->
+
 ---
 
 ## ✨ Features
