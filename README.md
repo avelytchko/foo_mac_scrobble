@@ -30,7 +30,7 @@
 
 ### Recommended — Install via foobar2000 Preferences
 1. Open foobar2000 → Preferences → Components
-2. Click the “+” button in the bottom-right corner
+2. Click the “+” button in the top-right corner
 3. Select the extracted component folder:
    ```
    foo_mac_scrobble.component/
@@ -145,7 +145,7 @@ That's it — all paths and settings are preconfigured.
 
 On success, you'll find the compiled component in:
 ```
-~/Library/foobar2000-v2/user-components/foo_mac_scrobble/foo_mac_scrobble.component/
+~/Library/Developer/Xcode/DerivedData/foo_mac_scrobble-<RANDOM_ID>/Build
 ```
 
 ### 🧱 Build via CLI (same as GitHub Actions)
