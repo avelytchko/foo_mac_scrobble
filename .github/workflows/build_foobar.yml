@@ -19,7 +19,7 @@ jobs:
 
     env:
       FOOBAR2000_VERSION: "2.25.3"
-      FOOBAR_WAIT_SECS: 90
+      FOOBAR_WAIT_SECS: 120
       FOOBAR_LOG_STRINGS: 250
       FOOBAR_LOG_FILE: "foobar.log"
 
