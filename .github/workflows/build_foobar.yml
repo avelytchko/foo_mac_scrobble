@@ -226,8 +226,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: foo_mac_scrobble_build
-          ath: ${{ env.FOOBAR_PLUGIN_ZIP_NAME }}
-
+          path: ${{ env.FOOBAR_PLUGIN_ZIP_NAME }}
 
       # Upload the log file as an artifact for debugging if needed
       - name: Upload logs
