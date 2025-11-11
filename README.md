@@ -3,8 +3,33 @@
 > Native macOS **Last.fm scrobbler plugin** for [foobar2000](https://www.foobar2000.org/mac).  
 > Built with the official foobar2000 SDK and Cocoa (Objective-C++), featuring native preferences UI, offline queueing, async networking, and full Last.fm API support.
 
-<!-- START doctoc -->
-<!-- END doctoc -->
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+## 📚 Table of Contents
+
+- [✨ Features](#-features)
+- [📦 Installation](#-installation)
+  - [Download the Release](#download-the-release)
+  - [Recommended — Install via foobar2000 Preferences](#recommended--install-via-foobar2000-preferences)
+  - [Manual Installation (Alternative)](#manual-installation-alternative)
+- [🧰 Configuration](#-configuration)
+  - [1. Enter your API credentials](#1-enter-your-api-credentials)
+  - [2. Authenticate](#2-authenticate)
+  - [3. Adjust preferences](#3-adjust-preferences)
+- [📸 Screenshots](#-screenshots)
+- [🧠 How It Works](#-how-it-works)
+- [⚙️ Building](#-building)
+  - [🧩 Prerequisites](#-prerequisites)
+  - [🧱 Build via Xcode (GUI)](#-build-via-xcode-gui)
+  - [🧱 Build via CLI (same as GitHub Actions)](#-build-via-cli-same-as-github-actions)
+  - [🧪 CI / GitHub Actions](#-ci--github-actions)
+- [🧩 Repository Structure](#-repository-structure)
+- [🧠 Technical Overview](#-technical-overview)
+- [🧹 Clearing Cache / Troubleshooting](#-clearing-cache--troubleshooting)
+- [⚖️ License](#-license)
+- [💬 Credits](#-credits)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 ---
 
