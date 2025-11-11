@@ -102,31 +102,30 @@ jobs:
 
           echo "🔍 Checking for expected log patterns..."
 
-          declare -A CHECKS=(
-            ["API init"]="Last.fm: LastfmApi instance created"
-            ["Session loaded"]="Last.fm: Session loaded from disk"
-            ["Session validated"]="Last.fm: Session key validated"
-            ["Authenticated"]="Last.fm Scrobbler: Authenticated as"
-            ["Plugin ready"]="Last.fm Scrobbler: Initialized successfully"
-            ["Queue loaded"]="Last.fm: Successfully loaded 10 tracks from queue file"
-            ["Queue initialized"]="Last.fm: Queue initialized, 10 tracks loaded"
-            ["Queue processing"]="Last.fm: Processing queue with 10 tracks"
-            ["Queue scrobbled"]="Last.fm: Successfully scrobbled from queue"
-            ["Queue processed"]="Last.fm: Processed 10 tracks this cycle"
-            ["Queue saved"]="Last.fm: Successfully saved queue to disk"
-          )
-
           FAILED=0
-          for LABEL in "${!CHECKS[@]}"; do
-            PATTERN="${CHECKS[$LABEL]}"
 
-            if grep -qF "$PATTERN" "$LOG_FILE"; then
-              echo "✅ $LABEL — found"
+          check_pattern() {
+            local label="$1"
+            local pattern="$2"
+            if grep -qF "$pattern" "$LOG_FILE"; then
+              echo "✅ $label — found"
             else
-              echo "❌ $LABEL — missing"
+              echo "❌ $label — missing"
               FAILED=1
             fi
-          done
+          }
+
+          check_pattern "API init" "Last.fm: LastfmApi instance created"
+          check_pattern "Session loaded" "Last.fm: Session loaded from disk"
+          check_pattern "Session validated" "Last.fm: Session key validated"
+          check_pattern "Authenticated" "Last.fm Scrobbler: Authenticated as"
+          check_pattern "Plugin ready" "Last.fm Scrobbler: Initialized successfully"
+          check_pattern "Queue loaded" "Last.fm: Successfully loaded 10 tracks from queue file"
+          check_pattern "Queue initialized" "Last.fm: Queue initialized, 10 tracks loaded"
+          check_pattern "Queue processing" "Last.fm: Processing queue with 10 tracks"
+          check_pattern "Queue scrobbled" "Last.fm: Successfully scrobbled from queue"
+          check_pattern "Queue processed" "Last.fm: Processed 10 tracks this cycle"
+          check_pattern "Queue saved" "Last.fm: Successfully saved queue to disk"
 
           echo ""
           if [ "$FAILED" -eq 0 ]; then
