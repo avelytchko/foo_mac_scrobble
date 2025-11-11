@@ -114,13 +114,13 @@ jobs:
             ["Queue scrobbled"]="Last.fm: Successfully scrobbled from queue"
             ["Queue processed"]="Last.fm: Processed 10 tracks this cycle"
             ["Queue saved"]="Last.fm: Successfully saved queue to disk"
-            )
+          )
 
           FAILED=0
           for LABEL in "${!CHECKS[@]}"; do
             PATTERN="${CHECKS[$LABEL]}"
 
-            if grep -q "$PATTERN" "$LOG_FILE"; then
+            if grep -qF "$PATTERN" "$LOG_FILE"; then
               echo "✅ $LABEL — found"
             else
               echo "❌ $LABEL — missing"
