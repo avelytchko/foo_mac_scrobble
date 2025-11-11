@@ -117,9 +117,8 @@ jobs:
             )
 
           FAILED=0
-          for ITEM in "${CHECKS[@]}"; do
-            LABEL="${ITEM%%|*}"
-            PATTERN="${ITEM#*|}"
+          for LABEL in "${!CHECKS[@]}"; do
+            PATTERN="${CHECKS[$LABEL]}"
 
             if grep -q "$PATTERN" "$LOG_FILE"; then
               echo "✅ $LABEL — found"
