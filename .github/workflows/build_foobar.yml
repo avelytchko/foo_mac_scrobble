@@ -22,6 +22,7 @@ jobs:
       FOOBAR_WAIT_SECS: 120
       FOOBAR_LOG_STRINGS: 500
       FOOBAR_LOG_FILE: "foobar.log"
+      FOOBAR_PLUGIN_ZIP_NAME: "foo_mac_scrobble_build.zip"
 
     steps:
       - name: Checkout source
@@ -203,6 +204,30 @@ jobs:
             cat "$LOG_FILE"
             exit 1
           fi
+
+      - name: 📦 Archive built component
+        run: |
+          echo "::group::📦 Archive Component"
+          COMPONENT=$(find foobar2000/foo_mac_scrobble/build -type d -name "foo_mac_scrobble.component" | head -n 1)
+          if [ -z "$COMPONENT" ]; then
+            echo "❌ Component not found!"
+            exit 1
+          fi
+
+          mkdir -p artifacts
+          cp -r "$COMPONENT" artifacts/
+          cd artifacts
+          zip -r ../${FOOBAR_PLUGIN_ZIP_NAME} foo_mac_scrobble.component/
+          cd ..
+          echo "✅ Archived component at: ${FOOBAR_PLUGIN_ZIP_NAME}"
+          echo "::endgroup::"
+
+      - name: 📤 Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: foo_mac_scrobble_build
+          ath: ${{ env.FOOBAR_PLUGIN_ZIP_NAME }}
+
 
       # Upload the log file as an artifact for debugging if needed
       - name: Upload logs
