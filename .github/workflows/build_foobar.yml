@@ -11,7 +11,7 @@ jobs:
 
     env:
       FOOBAR2000_VERSION: "2.25.3"
-      FOOBAR_WAIT_SECS: 15
+      FOOBAR_WAIT_SECS: 30
 
     steps:
       - name: Checkout source
@@ -60,6 +60,12 @@ jobs:
           echo "✅ Session JSON written:"
           ls -l "$HOME/Library/foobar2000-v2/lastfm_session.json"
 
+      - name: Prepare Last.fm queue
+        run: |
+          echo '${{ secrets.LASTFM_SCROBBLE_QUEUE_JSON }}' > "$HOME/Library/foobar2000-v2/lastfm_scrobble_queue.json"
+          echo "✅ Queue JSON written:"
+          ls -l "$HOME/Library/foobar2000-v2/lastfm_scrobble_queue.json"
+
       - name: Print environment info
         run: |
           sw_vers
@@ -95,6 +101,12 @@ jobs:
             ["Session validated"]="Last.fm: Session key validated"
             ["Authenticated"]="Last.fm Scrobbler: Authenticated as"
             ["Plugin ready"]="Last.fm Scrobbler: Initialized successfully"
+            ["Queue loaded"]="Last.fm: Successfully loaded 10 tracks from queue file"
+            ["Queue initialized"]="Last.fm: Queue initialized, 10 tracks loaded"
+            ["Queue processing"]="Last.fm: Processing queue with 10 tracks"
+            ["Queue scrobbled"]="Last.fm: Successfully scrobbled from queue"
+            ["Queue processed"]="Last.fm: Processed 10 tracks this cycle"
+            ["Queue saved"]="Last.fm: Successfully saved queue to disk"
           )
 
           FAILED=0
