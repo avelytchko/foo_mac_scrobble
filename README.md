@@ -123,9 +123,9 @@ You can build the component either via the **Xcode GUI** or the **CLI** (as in C
 brew install curl
 ```
 
-The project expects `libcurl.4.dylib` at:
+The project expects `libcurl.dylib` at:
 ```
-/opt/homebrew/opt/curl/lib/libcurl.4.dylib
+/opt/homebrew/opt/curl/lib/libcurl.dylib
 ```
 
 ### 🧱 Build via Xcode (GUI)

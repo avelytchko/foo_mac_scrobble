@@ -100,7 +100,7 @@
 		A42871CA2EC107D800F8A6EB /* foobar2000_SDK.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = foobar2000_SDK.xcodeproj; path = ../SDK/foobar2000_SDK.xcodeproj; sourceTree = SOURCE_ROOT; };
 		A42871D22EC107E400F8A6EB /* shared.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = shared.xcodeproj; path = ../shared/shared.xcodeproj; sourceTree = SOURCE_ROOT; };
 		A42871DA2EC107F500F8A6EB /* pfc.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = pfc.xcodeproj; path = "../..//pfc/pfc.xcodeproj"; sourceTree = "<group>"; };
-		A42871E52EC1083700F8A6EB /* libcurl.4.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libcurl.4.dylib; path = /opt/homebrew/Cellar/curl/8.17.0/lib/libcurl.4.dylib; sourceTree = "<group>"; };
+		A42871E52EC1083700F8A6EB /* libcurl.4.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libcurl.4.dylib; path = /opt/homebrew/opt/curl/lib/libcurl.dylib; sourceTree = "<group>"; };
 		A42871E82EC108BC00F8A6EB /* fooLastfmMacPreferences.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = fooLastfmMacPreferences.h; sourceTree = "<group>"; };
 		A42871E92EC108DB00F8A6EB /* config.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = config.h; sourceTree = "<group>"; };
 		A42871EB2EC1096800F8A6EB /* config.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = config.cpp; sourceTree = "<group>"; };
@@ -535,7 +535,7 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					/opt/homebrew/Cellar/curl/8.17.0/lib,
+					/opt/homebrew/opt/curl/lib,
 				);
 				MACOSX_DEPLOYMENT_TARGET = 15.6;
 				MARKETING_VERSION = 0.1;
@@ -568,7 +568,7 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					/opt/homebrew/Cellar/curl/8.17.0/lib,
+					/opt/homebrew/opt/curl/lib,
 				);
 				MACOSX_DEPLOYMENT_TARGET = 15.6;
 				MARKETING_VERSION = 0.1;
