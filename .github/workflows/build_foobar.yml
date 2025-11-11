@@ -156,20 +156,16 @@ jobs:
           FOOBAR_PID=$!
 
           # Wait for foobar to initialize and process the scrobble queue
-          # Plugin typically starts processing ~30-40 seconds after startup
           sleep ${FOOBAR_WAIT_SECS}
 
           echo "🧹 Stopping foobar2000..."
           kill "$FOOBAR_PID" 2>/dev/null || pkill foobar2000 || true
 
-          echo ""
-          echo "==== 📜 Foobar2000 log output (tail) ===="
+          echo "::group::📜 Foobar2000 Log"
           tail -n ${FOOBAR_LOG_STRINGS} "$LOG_FILE" || cat "$LOG_FILE"
-          echo "========================================="
-          echo ""
+          echo "::endgroup::"
 
           echo "🔍 Checking for expected log patterns..."
-
           FAILED=0
 
           # Helper function to check if a pattern exists in the log file
@@ -190,7 +186,7 @@ jobs:
           check_pattern "Session validated" "Last.fm: Session key validated"
           check_pattern "Authenticated" "Last.fm Scrobbler: Authenticated as"
           check_pattern "Plugin ready" "Last.fm Scrobbler: Initialized successfully"
-          
+
           # Verify queue operations
           check_pattern "Queue loaded" "Last.fm: Successfully loaded 10 tracks from queue file"
           check_pattern "Queue initialized" "Last.fm: Queue initialized, 10 tracks loaded"
