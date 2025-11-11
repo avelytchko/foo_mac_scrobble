@@ -25,10 +25,18 @@ namespace foo_lastfm {
     const GUID guid_cfg_debug_enabled = { 0x78901234, 0x7890, 0x7890, { 0x78, 0x90, 0x12, 0x34, 0xf0, 0x12, 0x34, 0x56 } };
     const GUID guid_preferences_page = { 0xa7b8c9da, 0xe0f1, 0xa1b2, { 0x4c, 0x5d, 0x6e, 0x7f, 0x80, 0x91, 0xa2, 0xb3 } };
     
-    // Initialize API key (default: empty)
-    cfg_string cfg_api_key(guid_cfg_api_key, "");
-    // Initialize API secret (default: empty)
-    cfg_string cfg_api_secret(guid_cfg_api_secret, "");
+    // Initialize API key
+    // Default: controlled by compile-time flag FOO_LASTFM_CI_API_KEY
+    #ifndef FOO_LASTFM_CI_API_KEY
+    #define FOO_LASTFM_CI_API_KEY ""
+    #endif
+    cfg_string cfg_api_key(guid_cfg_api_key, FOO_LASTFM_CI_API_KEY);
+    // Initialize API secret
+    // Default: controlled by compile-time flag FOO_LASTFM_CI_API_SECRET
+    #ifndef FOO_LASTFM_CI_API_SECRET
+    #define FOO_LASTFM_CI_API_SECRET ""
+    #endif
+    cfg_string cfg_api_secret(guid_cfg_api_secret, FOO_LASTFM_CI_API_SECRET);
     // Initialize session key (default: empty)
     cfg_string cfg_session_key(guid_cfg_session_key, "");
     // Initialize username (default: empty)

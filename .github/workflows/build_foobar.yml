@@ -34,7 +34,7 @@ jobs:
             -scheme foo_mac_scrobble \
             -configuration Release \
             -derivedDataPath build \
-            OTHER_CPLUSPLUSFLAGS="-DFOO_LASTFM_DEBUG_DEFAULT=1"
+            OTHER_CPLUSPLUSFLAGS="-DFOO_LASTFM_DEBUG_DEFAULT=1 -DFOO_LASTFM_CI_API_KEY='\"${{ secrets.LASTFM_API_KEY }}\"' -DFOO_LASTFM_CI_API_SECRET='\"${{ secrets.LASTFM_API_SECRET }}\"'"
 
       - name: Download foobar2000 for macOS
         run: |
