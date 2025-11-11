@@ -6,10 +6,12 @@ on:
     paths-ignore:
       - 'docs/**'
       - '*.md'
+      - workflows/release.yml
   pull_request:
     paths-ignore:
       - 'docs/**'
       - '*.md'
+      - workflows/release.yml
 
 jobs:
   build:
