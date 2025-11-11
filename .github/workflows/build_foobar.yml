@@ -66,11 +66,36 @@ jobs:
           echo "✅ Session JSON written:"
           ls -l "$HOME/Library/foobar2000-v2/lastfm_session.json"
 
-      - name: Prepare Last.fm queue
+      - name: Generate dynamic Last.fm queue
         run: |
-          echo '${{ secrets.LASTFM_SCROBBLE_QUEUE_JSON }}' > "$HOME/Library/foobar2000-v2/lastfm_scrobble_queue.json"
-          echo "✅ Queue JSON written:"
-          ls -l "$HOME/Library/foobar2000-v2/lastfm_scrobble_queue.json"
+          echo "🕒 Generating dynamic timestamps for scrobble queue..."
+          
+          # Create queue template from secret
+          TEMPLATE="/tmp/queue-template.json"
+          OUTPUT="$HOME/Library/foobar2000-v2/lastfm_scrobble_queue.json"
+          
+          echo '${{ secrets.LASTFM_SCROBBLE_QUEUE_JSON }}' > "$TEMPLATE"
+          
+          # Get current Unix timestamp
+          NOW=$(date +%s)
+          
+          # Generate new timestamps starting from bottom (each track -1 minute + random 10-20 seconds)
+          jq --argjson now "$NOW" '
+            .queue |= (
+              reverse | to_entries | map(
+                .value.timestamp = ($now - (60 * .key) - (10 + (.key % 11))) |
+                .value.last_attempt = 0 |
+                .value.retry_count = 0
+              ) | reverse | map(.value)
+            )
+          ' "$TEMPLATE" > "$OUTPUT"
+          
+          echo "✅ Queue with dynamic timestamps generated:"
+          echo ""
+          jq -r '.queue[] | "  \(.artist) - \(.track) (timestamp: \(.timestamp))"' "$OUTPUT"
+          echo ""
+          echo "📋 First 3 tracks from queue file:"
+          jq '.queue[:3]' "$OUTPUT"
 
       - name: Print environment info
         run: |
