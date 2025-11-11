@@ -266,7 +266,7 @@ Last.fm: Successfully saved queue to disk
 
 ---
 
-## ⚖️ License <span id="license"></span>
+## 🧾 License
 
 **MIT License** © Oleksandr Velychko
 
