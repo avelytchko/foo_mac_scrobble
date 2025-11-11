@@ -62,6 +62,23 @@ Open **Preferences → Tools → Last.fm Scrobbler**
 
 ---
 
+## 📸 Screenshots
+
+**Preferences UI**
+
+![Preferences](docs/images/preferences.png)
+
+**Authentication Flow**
+
+![Auth Flow](docs/images/auth_flow.png)
+
+**Debug Console**
+
+![Console](docs/images/console_log.png)
+
+---
+
+
 ## 🧠 How It Works
 
 - The plugin monitors foobar2000 playback events
