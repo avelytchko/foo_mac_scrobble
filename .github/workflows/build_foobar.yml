@@ -25,6 +25,8 @@ jobs:
       FOOBAR_LOG_STRINGS: 500
       FOOBAR_LOG_FILE: "foobar.log"
       FOOBAR_PLUGIN_ZIP_NAME: "foo_mac_scrobble_build.zip"
+      API_KEY: ${{ secrets.LASTFM_API_KEY }}  # Додано для маскування
+      API_SECRET: ${{ secrets.LASTFM_API_SECRET }}  # Додано для маскування
 
     steps:
       - name: Checkout source
@@ -39,8 +41,11 @@ jobs:
         run: |
           sudo gem install xcpretty
 
-      # Build the foo_mac_scrobble component with debug logging enabled
-      # and inject Last.fm API credentials from secrets
+      - name: Mask secrets in logs  # Новий крок: Маскування в консолі
+        run: |
+          echo "::add-mask::$API_KEY"
+          echo "::add-mask::$API_SECRET"
+
       - name: Build plugin with Xcode
         working-directory: foobar2000/foo_mac_scrobble
         run: |
@@ -52,9 +57,23 @@ jobs:
             -configuration Release \
             -derivedDataPath build \
             OTHER_CPLUSPLUSFLAGS="-DFOO_LASTFM_DEBUG_DEFAULT=1 \
-            -DFOO_LASTFM_CI_API_KEY='\"${{ secrets.LASTFM_API_KEY }}\"' \
-            -DFOO_LASTFM_CI_API_SECRET='\"${{ secrets.LASTFM_API_SECRET }}\"'" \
+            -DFOO_LASTFM_CI_API_KEY='\"$API_KEY\"' \
+            -DFOO_LASTFM_CI_API_SECRET='\"$API_SECRET\"'" \
             > build/build.log 2>&1 | xcpretty --color --simple
+          echo "::endgroup::"
+
+      - name: Censor secrets in build log
+        run: |
+          echo "::group::🔒 Censor Secrets in Build Log"
+          LOG_FILE="foobar2000/foo_mac_scrobble/build/build.log"
+          if [ -f "$LOG_FILE" ]; then
+            sed -i '' "s/$API_KEY/***API_KEY***/g" "$LOG_FILE"
+            sed -i '' "s/$API_SECRET/***API_SECRET***/g" "$LOG_FILE"
+            echo "✅ Secrets censored in build.log"
+          else
+            echo "❌ Build log file not found!"
+            exit 1
+          fi
           echo "::endgroup::"
 
       - name: 📜 Show full build log
