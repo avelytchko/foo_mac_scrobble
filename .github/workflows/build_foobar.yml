@@ -54,7 +54,7 @@ jobs:
             OTHER_CPLUSPLUSFLAGS="-DFOO_LASTFM_DEBUG_DEFAULT=1 \
             -DFOO_LASTFM_CI_API_KEY='\"$API_KEY\"' \
             -DFOO_LASTFM_CI_API_SECRET='\"$API_SECRET\"'" \
-            > build/build.log 2>&1 | sed "s/$API_KEY/***API_KEY***/g" | sed "s/$API_SECRET/***API_SECRET***/g" | xcpretty --color --simple
+            > build/build.log 2>&1 | xcpretty --color --simple
           echo "::endgroup::"
 
       - name: Censor secrets in build log
@@ -76,7 +76,7 @@ jobs:
           echo "::group::📜 Full Build Log"
           LOG_FILE="foobar2000/foo_mac_scrobble/build/build.log"
           if [ -f "$LOG_FILE" ]; then
-            cat "$LOG_FILE"
+            cat "$LOG_FILE" | sed "s/$API_KEY/***API_KEY***/g" | sed "s/$API_SECRET/***API_SECRET***/g"
           else
             echo "❌ Build log file not found!"
             exit 1
