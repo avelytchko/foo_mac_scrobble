@@ -25,8 +25,8 @@ jobs:
       FOOBAR_LOG_STRINGS: 500
       FOOBAR_LOG_FILE: "foobar.log"
       FOOBAR_PLUGIN_ZIP_NAME: "foo_mac_scrobble_build.zip"
-      API_KEY: ${{ secrets.LASTFM_API_KEY }}  # Додано для маскування
-      API_SECRET: ${{ secrets.LASTFM_API_SECRET }}  # Додано для маскування
+      API_KEY: ${{ secrets.LASTFM_API_KEY }}
+      API_SECRET: ${{ secrets.LASTFM_API_SECRET }}
 
     steps:
       - name: Checkout source
@@ -41,11 +41,6 @@ jobs:
         run: |
           sudo gem install xcpretty
 
-      - name: Mask secrets in logs  # Новий крок: Маскування в консолі
-        run: |
-          echo "::add-mask::$API_KEY"
-          echo "::add-mask::$API_SECRET"
-
       - name: Build plugin with Xcode
         working-directory: foobar2000/foo_mac_scrobble
         run: |
@@ -59,7 +54,7 @@ jobs:
             OTHER_CPLUSPLUSFLAGS="-DFOO_LASTFM_DEBUG_DEFAULT=1 \
             -DFOO_LASTFM_CI_API_KEY='\"$API_KEY\"' \
             -DFOO_LASTFM_CI_API_SECRET='\"$API_SECRET\"'" \
-            > build/build.log 2>&1 | xcpretty --color --simple
+            > build/build.log 2>&1 | sed "s/$API_KEY/***API_KEY***/g" | sed "s/$API_SECRET/***API_SECRET***/g" | xcpretty --color --simple
           echo "::endgroup::"
 
       - name: Censor secrets in build log
