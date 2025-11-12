@@ -42,15 +42,36 @@ namespace foo_lastfm {
                 file_info_impl info;
                 if (!track->get_info(info)) return;
 
-                m_current_track.artist = info.meta_get("artist", 0);
-                m_current_track.track = info.meta_get("title", 0);
-                m_current_track.album = info.meta_get("album", 0);
-                m_current_track.album_artist = info.meta_get("album artist", 0);
+                // Safely assign metadata with nullptr check
+                const char* artist_ptr = info.meta_get("artist", 0);
+                m_current_track.artist = artist_ptr ? artist_ptr : "";
+
+                const char* title_ptr = info.meta_get("title", 0);
+                m_current_track.track = title_ptr ? title_ptr : "";
+
+                const char* album_ptr = info.meta_get("album", 0);
+                m_current_track.album = album_ptr ? album_ptr : "";
+
+                const char* album_artist_ptr = info.meta_get("album artist", 0);
+                m_current_track.album_artist = album_artist_ptr ? album_artist_ptr : "";
+
                 m_length = info.get_length();
                 m_current_track.duration = static_cast<int>(m_length);
+
+                // Track number is safe, pfc::string8 handles nullptr
                 pfc::string8 track_number = info.meta_get("tracknumber", 0);
-                m_current_track.track_number = track_number.is_empty() ? 0 : atoi(track_number);
+                m_current_track.track_number = track_number.is_empty() ? 0 : atoi(track_number.c_str());
+
                 m_current_track.timestamp = time(nullptr);  // Initial timestamp for now playing
+
+                // Log metadata for debugging
+                if (cfg_debug_enabled.get()) {
+                    console::printf("Last.fm Debug: Artist: %s, Title: %s, Album: %s, Album Artist: %s",
+                                m_current_track.artist.c_str(),
+                                m_current_track.track.c_str(),
+                                m_current_track.album.c_str(),
+                                m_current_track.album_artist.c_str());
+                }
 
                 if (m_current_track.artist.empty() || m_current_track.track.empty()) {
                     console::print("Last.fm Scrobbler: Skipping track due to missing metadata");
