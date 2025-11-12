@@ -57,6 +57,18 @@ jobs:
             > build/build.log 2>&1 | xcpretty --color --simple
           echo "::endgroup::"
 
+      - name: 📜 Show full build log
+        run: |
+          echo "::group::📜 Full Build Log"
+          LOG_FILE="foobar2000/foo_mac_scrobble/build/build.log"
+          if [ -f "$LOG_FILE" ]; then
+            cat "$LOG_FILE"
+          else
+            echo "❌ Build log file not found!"
+            exit 1
+          fi
+          echo "::endgroup::"
+
       - name: 📦 Show build output
         run: |
           echo "::group::📦 Build Artifacts"
@@ -234,11 +246,20 @@ jobs:
         with:
           name: foo_mac_scrobble_build
           path: ${{ env.FOOBAR_PLUGIN_ZIP_NAME }}
+          if-no-files-found: error
+
+      - name: 📤 Upload build log as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: build_log
+          path: foobar2000/foo_mac_scrobble/build/build.log
+          if-no-files-found: error
 
       # Upload the log file as an artifact for debugging if needed
-      - name: Upload logs
+      - name: Upload foobar2000 logs
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: foobar_log
           path: ${{ env.FOOBAR_LOG_FILE }}
+          if-no-files-found: error
