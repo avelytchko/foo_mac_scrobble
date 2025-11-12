@@ -54,7 +54,7 @@ jobs:
             OTHER_CPLUSPLUSFLAGS="-DFOO_LASTFM_DEBUG_DEFAULT=1 \
             -DFOO_LASTFM_CI_API_KEY='\"${{ secrets.LASTFM_API_KEY }}\"' \
             -DFOO_LASTFM_CI_API_SECRET='\"${{ secrets.LASTFM_API_SECRET }}\"'" \
-            | xcpretty --color --simple
+            > build/build.log 2>&1 | xcpretty --color --simple
           echo "::endgroup::"
 
       - name: 📦 Show build output
@@ -66,14 +66,19 @@ jobs:
       - name: ⚠️ Check for build warnings
         run: |
           echo "::group::⚠️ Build Warnings"
-          WARNINGS=$(grep -i "warning:" <(xcodebuild -project foobar2000/foo_mac_scrobble/foo_mac_scrobble.xcodeproj \
-            -scheme foo_mac_scrobble \
-            -configuration Release 2>&1) || true)
-          if [ -n "$WARNINGS" ]; then
-            echo "Warnings found:"
-            echo "$WARNINGS" | head -n 20
+          # Use log file from the original build
+          LOG_FILE="foobar2000/foo_mac_scrobble/build/build.log"
+          if [ -f "$LOG_FILE" ]; then
+            WARNINGS=$(grep -i "warning:" "$LOG_FILE" || true)
+            if [ -n "$WARNINGS" ]; then
+              echo "Warnings found:"
+              echo "$WARNINGS" | head -n 20
+            else
+              echo "✅ No warnings detected."
+            fi
           else
-            echo "✅ No warnings detected."
+            echo "❌ Build log file not found!"
+            exit 1
           fi
           echo "::endgroup::"
 
