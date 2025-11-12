@@ -25,8 +25,6 @@ jobs:
       FOOBAR_LOG_STRINGS: 500
       FOOBAR_LOG_FILE: "foobar.log"
       FOOBAR_PLUGIN_ZIP_NAME: "foo_mac_scrobble_build.zip"
-      API_KEY: ${{ secrets.LASTFM_API_KEY }}
-      API_SECRET: ${{ secrets.LASTFM_API_SECRET }}
 
     steps:
       - name: Checkout source
@@ -52,8 +50,8 @@ jobs:
             -configuration Release \
             -derivedDataPath build \
             OTHER_CPLUSPLUSFLAGS="-DFOO_LASTFM_DEBUG_DEFAULT=1 \
-            -DFOO_LASTFM_CI_API_KEY='\"$API_KEY\"' \
-            -DFOO_LASTFM_CI_API_SECRET='\"$API_SECRET\"'" \
+            -DFOO_LASTFM_CI_API_KEY='\"${{ secrets.LASTFM_API_KEY }}\"' \
+            -DFOO_LASTFM_CI_API_SECRET='\"${{ secrets.LASTFM_API_SECRET }}\"'" \
             > build/build.log 2>&1 | xcpretty --color --simple
           echo "::endgroup::"
 
@@ -62,8 +60,8 @@ jobs:
           echo "::group::🔒 Censor Secrets in Build Log"
           LOG_FILE="foobar2000/foo_mac_scrobble/build/build.log"
           if [ -f "$LOG_FILE" ]; then
-            sed -i '' "s/$API_KEY/***API_KEY***/g" "$LOG_FILE"
-            sed -i '' "s/$API_SECRET/***API_SECRET***/g" "$LOG_FILE"
+            sed -i '' "s/${{ secrets.LASTFM_API_KEY }}/***API_KEY***/g" "$LOG_FILE"
+            sed -i '' "s/${{ secrets.LASTFM_API_SECRET }}/***API_SECRET***/g" "$LOG_FILE"
             echo "✅ Secrets censored in build.log"
           else
             echo "❌ Build log file not found!"
