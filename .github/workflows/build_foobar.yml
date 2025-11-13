@@ -39,6 +39,8 @@ jobs:
         run: |
           sudo gem install xcpretty
 
+      # Build the foo_mac_scrobble component with debug logging enabled
+      # and inject Last.fm API credentials from secrets
       - name: Build plugin with Xcode
         working-directory: foobar2000/foo_mac_scrobble
         run: |
@@ -53,32 +55,6 @@ jobs:
             -DFOO_LASTFM_CI_API_KEY='\"${{ secrets.LASTFM_API_KEY }}\"' \
             -DFOO_LASTFM_CI_API_SECRET='\"${{ secrets.LASTFM_API_SECRET }}\"'" \
             > build/build.log 2>&1 | xcpretty --color --simple
-          echo "::endgroup::"
-
-      - name: Censor secrets in build log
-        run: |
-          echo "::group::🔒 Censor Secrets in Build Log"
-          LOG_FILE="foobar2000/foo_mac_scrobble/build/build.log"
-          if [ -f "$LOG_FILE" ]; then
-            sed -i '' "s/${{ secrets.LASTFM_API_KEY }}/***API_KEY***/g" "$LOG_FILE"
-            sed -i '' "s/${{ secrets.LASTFM_API_SECRET }}/***API_SECRET***/g" "$LOG_FILE"
-            echo "✅ Secrets censored in build.log"
-          else
-            echo "❌ Build log file not found!"
-            exit 1
-          fi
-          echo "::endgroup::"
-
-      - name: 📜 Show full build log
-        run: |
-          echo "::group::📜 Full Build Log"
-          LOG_FILE="foobar2000/foo_mac_scrobble/build/build.log"
-          if [ -f "$LOG_FILE" ]; then
-            cat "$LOG_FILE" | sed "s/$API_KEY/***API_KEY***/g" | sed "s/$API_SECRET/***API_SECRET***/g"
-          else
-            echo "❌ Build log file not found!"
-            exit 1
-          fi
           echo "::endgroup::"
 
       - name: 📦 Show build output
@@ -260,15 +236,8 @@ jobs:
           path: ${{ env.FOOBAR_PLUGIN_ZIP_NAME }}
           if-no-files-found: error
 
-      - name: 📤 Upload build log as artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: build_log
-          path: foobar2000/foo_mac_scrobble/build/build.log
-          if-no-files-found: error
-
       # Upload the log file as an artifact for debugging if needed
-      - name: Upload foobar2000 logs
+      - name: Upload logs
         if: always()
         uses: actions/upload-artifact@v4
         with:
