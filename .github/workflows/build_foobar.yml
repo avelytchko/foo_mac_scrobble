@@ -30,6 +30,17 @@ jobs:
       - name: Checkout source
         uses: actions/checkout@v4
 
+      # Linting: clang-format
+      - name: Install clang-format
+        run: brew install clang-format
+
+      - name: 🔍 Code style check (clang-format)
+        run: |
+          echo "::group::🔍 clang-format check"
+          FILES=$(find foobar2000/foo_mac_scrobble -name "*.cpp" -o -name "*.h")
+          clang-format --dry-run --Werror $FILES
+          echo "::endgroup::"
+
       - name: Ensure Xcode is active
         run: |
           sudo xcode-select -s /Applications/Xcode.app/Contents/Developer
