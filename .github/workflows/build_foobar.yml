@@ -41,80 +41,67 @@ jobs:
           clang-format --dry-run --Werror $FILES
           echo "::endgroup::"
 
-      - name: Ensure Xcode is active
+      # Pin Xcode version to prevent breaking changes from runner updates
+      # Using mxcl/xcodebuild with xcode parameter ensures consistent build environment
+      # Xcode 16.4 is the last known working version (as of build log analysis)
+      # Note: We use action: none to only select Xcode version, then build manually
+      # because we need to pass custom OTHER_CPLUSPLUSFLAGS which mxcl/xcodebuild doesn't support directly
+      - name: Select Xcode version
+        uses: mxcl/xcodebuild@v3
+        with:
+          xcode: '16.4'
+          action: none
+
+      - name: Verify Xcode configuration
         run: |
-          sudo xcode-select -s /Applications/Xcode.app/Contents/Developer
+          xcode-select -p
           xcodebuild -version
+
+      - name: Install build dependencies
+        run: |
+          sudo gem install xcpretty
 
       # Build the foo_mac_scrobble component with debug logging enabled
       # and inject Last.fm API credentials from secrets
-      # Using mxcl/xcodebuild for better Xcode version resilience and automatic .xcresult upload on failure
-      - name: Build plugin with mxcl/xcodebuild
-        id: xcode_build
+      - name: Build plugin with Xcode
         working-directory: foobar2000/foo_mac_scrobble
-        uses: mxcl/xcodebuild@v3
-        with:
-          # Project configuration
-          project: foo_mac_scrobble.xcodeproj
-          scheme: foo_mac_scrobble
-          configuration: Release
-          action: build
-          
-          # Build output location
-          derived-data-path: build
-          
-          # Pass custom C++ flags to enable debug logging and inject API credentials
-          # The -DFOO_LASTFM_DEBUG_DEFAULT=1 flag enables debug logging at compile time
-          # The -DFOO_LASTFM_CI_API_KEY and -DFOO_LASTFM_CI_API_SECRET inject credentials
-          # Note: Double escaping is needed for quotes: '\"...\""'
-          xcodebuild-flags: >-
-            OTHER_CPLUSPLUSFLAGS="-DFOO_LASTFM_DEBUG_DEFAULT=1
-            -DFOO_LASTFM_CI_API_KEY='\"${{ secrets.LASTFM_API_KEY }}\"'
-            -DFOO_LASTFM_CI_API_SECRET='\"${{ secrets.LASTFM_API_SECRET }}\"'"
-          
-          # Upload .xcresult bundle automatically on failure for debugging
-          # This provides full build logs and diagnostics in Xcode-readable format
-          upload-logs: failure
-
-      # SECURITY: Censor secrets in any build logs that might contain them
-      # mxcl/xcodebuild stores logs in build/Logs/Build/ directory
-      - name: Censor secrets in build logs
-        if: always()
         run: |
-          echo "::group::🔒 Censor Secrets in Build Logs"
-          LOG_DIR="foobar2000/foo_mac_scrobble/build/Logs/Build"
-          
-          if [ -d "$LOG_DIR" ]; then
-            # Find and censor secrets in all log files
-            find "$LOG_DIR" -type f \( -name "*.xcactivitylog" -o -name "*.log" \) -print0 | while IFS= read -r -d '' logfile; do
-              if [ -f "$logfile" ]; then
-                sed -i '' "s/${{ secrets.LASTFM_API_KEY }}/***API_KEY***/g" "$logfile" 2>/dev/null || true
-                sed -i '' "s/${{ secrets.LASTFM_API_SECRET }}/***API_SECRET***/g" "$logfile" 2>/dev/null || true
-              fi
-            done
-            echo "✅ Secrets censored in build logs"
+          echo "::group::🧩 Xcode Build"
+          mkdir -p build
+          set -o pipefail
+          xcodebuild -project foo_mac_scrobble.xcodeproj \
+            -scheme foo_mac_scrobble \
+            -configuration Release \
+            -derivedDataPath build \
+            OTHER_CPLUSPLUSFLAGS="-DFOO_LASTFM_DEBUG_DEFAULT=1 \
+            -DFOO_LASTFM_CI_API_KEY='\"${{ secrets.LASTFM_API_KEY }}\"' \
+            -DFOO_LASTFM_CI_API_SECRET='\"${{ secrets.LASTFM_API_SECRET }}\"'" \
+            > build/build.log 2>&1 | xcpretty --color --simple
+          echo "::endgroup::"
+
+      - name: Censor secrets in build log
+        run: |
+          echo "::group::🔒 Censor Secrets in Build Log"
+          LOG_FILE="foobar2000/foo_mac_scrobble/build/build.log"
+          if [ -f "$LOG_FILE" ]; then
+            sed -i '' "s/${{ secrets.LASTFM_API_KEY }}/***API_KEY***/g" "$LOG_FILE"
+            sed -i '' "s/${{ secrets.LASTFM_API_SECRET }}/***API_SECRET***/g" "$LOG_FILE"
+            echo "✅ Secrets censored in build.log"
           else
-            echo "ℹ️ No build log directory found (this may be normal for successful builds)"
+            echo "❌ Build log file not found!"
+            exit 1
           fi
           echo "::endgroup::"
 
-      # Display relevant portions of build logs for quick debugging
-      # mxcl/xcodebuild automatically uploads full .xcresult on failure, but we show summary here
-      - name: 📜 Show build log summary
-        if: always()
+      - name: 📜 Show full build log
         run: |
-          echo "::group::📜 Build Log Summary"
-          LOG_DIR="foobar2000/foo_mac_scrobble/build/Logs/Build"
-          
-          if [ -d "$LOG_DIR" ]; then
-            # Show last 100 lines of each log file for quick review
-            find "$LOG_DIR" -type f -name "*.xcactivitylog" -print0 | while IFS= read -r -d '' logfile; do
-              echo "=== Log from $(basename "$logfile") ==="
-              tail -n 100 "$logfile" 2>/dev/null || echo "Could not read log file"
-              echo ""
-            done
+          echo "::group::📜 Full Build Log"
+          LOG_FILE="foobar2000/foo_mac_scrobble/build/build.log"
+          if [ -f "$LOG_FILE" ]; then
+            cat "$LOG_FILE"
           else
-            echo "ℹ️ No build logs found"
+            echo "❌ Build log file not found!"
+            exit 1
           fi
           echo "::endgroup::"
 
@@ -124,23 +111,22 @@ jobs:
           find foobar2000/foo_mac_scrobble/build -type d -name "*.component"
           echo "::endgroup::"
 
-      # Check for build warnings in the logs
       - name: ⚠️ Check for build warnings
-        if: always()
         run: |
           echo "::group::⚠️ Build Warnings"
-          LOG_DIR="foobar2000/foo_mac_scrobble/build/Logs/Build"
-          
-          if [ -d "$LOG_DIR" ]; then
-            WARNINGS=$(find "$LOG_DIR" -type f -name "*.xcactivitylog" -exec grep -i "warning:" {} \; 2>/dev/null || true)
+          # Use log file from the original build
+          LOG_FILE="foobar2000/foo_mac_scrobble/build/build.log"
+          if [ -f "$LOG_FILE" ]; then
+            WARNINGS=$(grep -i "warning:" "$LOG_FILE" || true)
             if [ -n "$WARNINGS" ]; then
-              echo "⚠️ Warnings found:"
+              echo "Warnings found:"
               echo "$WARNINGS"
             else
               echo "✅ No warnings detected."
             fi
           else
-            echo "ℹ️ Build log directory not found"
+            echo "❌ Build log file not found!"
+            exit 1
           fi
           echo "::endgroup::"
 
@@ -298,16 +284,14 @@ jobs:
           path: ${{ env.FOOBAR_PLUGIN_ZIP_NAME }}
           if-no-files-found: error
 
-      # Upload build logs manually as artifact for always-available debugging
-      - name: 📤 Upload build logs as artifact
-        if: always()
+      - name: 📤 Upload build log as artifact
         uses: actions/upload-artifact@v4
         with:
-          name: build_logs
-          path: foobar2000/foo_mac_scrobble/build/Logs
-          if-no-files-found: warn
+          name: build_log
+          path: foobar2000/foo_mac_scrobble/build/build.log
+          if-no-files-found: error
 
-      # Upload the foobar2000 runtime log file as an artifact for debugging if needed
+      # Upload the log file as an artifact for debugging if needed
       - name: Upload foobar2000 logs
         if: always()
         uses: actions/upload-artifact@v4
