@@ -54,7 +54,33 @@ jobs:
             OTHER_CPLUSPLUSFLAGS="-DFOO_LASTFM_DEBUG_DEFAULT=1 \
             -DFOO_LASTFM_CI_API_KEY='\"${{ secrets.LASTFM_API_KEY }}\"' \
             -DFOO_LASTFM_CI_API_SECRET='\"${{ secrets.LASTFM_API_SECRET }}\"'" \
-            | xcpretty --color --simple
+            > build/build.log 2>&1 | xcpretty --color --simple
+          echo "::endgroup::"
+
+      - name: Censor secrets in build log
+        run: |
+          echo "::group::🔒 Censor Secrets in Build Log"
+          LOG_FILE="foobar2000/foo_mac_scrobble/build/build.log"
+          if [ -f "$LOG_FILE" ]; then
+            sed -i '' "s/${{ secrets.LASTFM_API_KEY }}/***API_KEY***/g" "$LOG_FILE"
+            sed -i '' "s/${{ secrets.LASTFM_API_SECRET }}/***API_SECRET***/g" "$LOG_FILE"
+            echo "✅ Secrets censored in build.log"
+          else
+            echo "❌ Build log file not found!"
+            exit 1
+          fi
+          echo "::endgroup::"
+
+      - name: 📜 Show full build log
+        run: |
+          echo "::group::📜 Full Build Log"
+          LOG_FILE="foobar2000/foo_mac_scrobble/build/build.log"
+          if [ -f "$LOG_FILE" ]; then
+            cat "$LOG_FILE"
+          else
+            echo "❌ Build log file not found!"
+            exit 1
+          fi
           echo "::endgroup::"
 
       - name: 📦 Show build output
@@ -66,14 +92,19 @@ jobs:
       - name: ⚠️ Check for build warnings
         run: |
           echo "::group::⚠️ Build Warnings"
-          WARNINGS=$(grep -i "warning:" <(xcodebuild -project foobar2000/foo_mac_scrobble/foo_mac_scrobble.xcodeproj \
-            -scheme foo_mac_scrobble \
-            -configuration Release 2>&1) || true)
-          if [ -n "$WARNINGS" ]; then
-            echo "Warnings found:"
-            echo "$WARNINGS"
+          # Use log file from the original build
+          LOG_FILE="foobar2000/foo_mac_scrobble/build/build.log"
+          if [ -f "$LOG_FILE" ]; then
+            WARNINGS=$(grep -i "warning:" "$LOG_FILE" || true)
+            if [ -n "$WARNINGS" ]; then
+              echo "Warnings found:"
+              echo "$WARNINGS"
+            else
+              echo "✅ No warnings detected."
+            fi
           else
-            echo "✅ No warnings detected."
+            echo "❌ Build log file not found!"
+            exit 1
           fi
           echo "::endgroup::"
 
@@ -231,8 +262,15 @@ jobs:
           path: ${{ env.FOOBAR_PLUGIN_ZIP_NAME }}
           if-no-files-found: error
 
+      - name: 📤 Upload build log as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: build_log
+          path: foobar2000/foo_mac_scrobble/build/build.log
+          if-no-files-found: error
+
       # Upload the log file as an artifact for debugging if needed
-      - name: Upload logs
+      - name: Upload foobar2000 logs
         if: always()
         uses: actions/upload-artifact@v4
         with:
