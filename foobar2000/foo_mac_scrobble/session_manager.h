@@ -8,10 +8,12 @@
 #pragma once
 #include <string>
 
-namespace foo_lastfm {
+namespace foo_lastfm
+{
 
-class SessionManager {
-public:
+class SessionManager
+{
+  public:
     // Constructor: Initializes session manager
     SessionManager();
 
@@ -29,7 +31,7 @@ public:
     // Clears session data from file and memory
     void clear_session();
 
-private:
+  private:
     // Path to the session file
     std::string m_session_file_path;
 };

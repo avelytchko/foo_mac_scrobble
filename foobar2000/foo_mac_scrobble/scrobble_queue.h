@@ -7,33 +7,36 @@
 
 #pragma once
 
-#include <string>
-#include <vector>
-#include <mutex>
-#include <chrono>
 #include "lastfm_api.h"
 #include "session_manager.h"
 
-namespace foo_lastfm {
+#include <chrono>
+#include <mutex>
+#include <string>
+#include <vector>
+
+namespace foo_lastfm
+{
 
 // Structure to hold track data in the scrobble queue
-struct QueuedTrack {
-    std::string artist;         // Artist name
-    std::string track;          // Track title
-    std::string album;          // Album name
-    std::string album_artist;   // Album artist (if different from artist)
-    int duration;               // Track duration in seconds
-    int track_number;           // Track number in album
-    time_t timestamp;           // Timestamp for scrobble submission
-    int retry_count;            // Number of failed scrobble attempts
-    time_t last_attempt;        // Timestamp of the last scrobble attempt
-    
-    QueuedTrack() : duration(0), track_number(0), timestamp(0),
-                    retry_count(0), last_attempt(0) {}
+struct QueuedTrack
+{
+    std::string artist;       // Artist name
+    std::string track;        // Track title
+    std::string album;        // Album name
+    std::string album_artist; // Album artist (if different from artist)
+    int duration;             // Track duration in seconds
+    int track_number;         // Track number in album
+    time_t timestamp;         // Timestamp for scrobble submission
+    int retry_count;          // Number of failed scrobble attempts
+    time_t last_attempt;      // Timestamp of the last scrobble attempt
+
+    QueuedTrack() : duration(0), track_number(0), timestamp(0), retry_count(0), last_attempt(0) {}
 };
 
-class ScrobbleQueue {
-public:
+class ScrobbleQueue
+{
+  public:
     // Constructor: Initializes the scrobble queue and loads data from disk
     ScrobbleQueue();
     // Destructor: Saves the queue to disk
@@ -47,7 +50,7 @@ public:
     // Clears all tracks from the queue and disk
     void clear_queue();
 
-private:
+  private:
     // Queue of tracks pending scrobble
     std::vector<QueuedTrack> m_queue;
     // Mutex for thread-safe queue access

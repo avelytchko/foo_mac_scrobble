@@ -7,20 +7,22 @@
 
 #pragma once
 
-#include <string>
-#include <map>
 #include <ctime>
 #include <curl/curl.h>
+#include <map>
+#include <string>
 
-class LastfmApi {
-public:
+class LastfmApi
+{
+  public:
     // Constructor: Initializes Last.fm API instance
     LastfmApi();
     // Destructor: Cleans up resources
     ~LastfmApi();
-    
+
     // Structure to hold track metadata for scrobbling
-    struct TrackInfo {
+    struct TrackInfo
+    {
         std::string artist;
         std::string track;
         std::string album;
@@ -28,10 +30,10 @@ public:
         int duration;
         int track_number;
         time_t timestamp;
-        
+
         TrackInfo() : duration(0), track_number(0), timestamp(0) {}
     };
-    
+
     // Authenticates user with a token (synchronous)
     bool authenticate(const std::string& token);
     // Generates URL for user authentication
@@ -58,8 +60,8 @@ public:
     void update_now_playing_async(const TrackInfo& track);
     // Submits a track for scrobbling (asynchronous)
     void scrobble_track_async(const TrackInfo& track);
-    
-private:
+
+  private:
     // API key for Last.fm
     std::string m_api_key;
     // API secret for Last.fm
@@ -67,7 +69,8 @@ private:
     // Session key for authenticated requests
     std::string m_session_key;
     // Executes an API request in a background thread
-    void execute_async_request(const std::map<std::string, std::string>& params, std::function<void(bool success, const std::string& response)> callback);
+    void execute_async_request(const std::map<std::string, std::string>& params,
+                               std::function<void(bool success, const std::string& response)> callback);
     // Base URL for Last.fm API
     static const char* API_URL;
     // Base URL for authentication
@@ -77,12 +80,8 @@ private:
     // URL-encodes a string for API requests
     std::string url_encode(const std::string& value) const;
     // Sends an API request with parameters and stores response
-    bool send_api_request(
-        const std::map<std::string, std::string>& params,
-        std::string& response,
-        CURLcode* res_out = nullptr,
-        long* http_code_out = nullptr
-    );
+    bool send_api_request(const std::map<std::string, std::string>& params, std::string& response,
+                          CURLcode* res_out = nullptr, long* http_code_out = nullptr);
     // CURL callback to collect response data
     static size_t write_callback(void* contents, size_t size, size_t nmemb, void* userp);
 };
