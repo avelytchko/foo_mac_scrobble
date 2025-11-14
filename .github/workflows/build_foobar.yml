@@ -2,7 +2,10 @@ name: Build and test foo_mac_scrobble
 
 on:
   push:
-    branches: [ main ]
+    branches:
+      - main
+      - release/*
+      - test/*
     paths-ignore:
       - 'docs/**'
       - '*.md'
