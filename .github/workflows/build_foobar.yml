@@ -2,7 +2,10 @@ name: Build and test foo_mac_scrobble
 
 on:
   push:
-    branches: [ main ]
+    branches:
+      - main
+      - release/*
+      - test/*
     paths-ignore:
       - 'docs/**'
       - '*.md'
@@ -43,9 +46,6 @@ jobs:
 
       # Pin Xcode version to prevent breaking changes from runner updates
       # Using mxcl/xcodebuild with xcode parameter ensures consistent build environment
-      # Xcode 16.4 is the last known working version (as of build log analysis)
-      # Note: We use action: none to only select Xcode version, then build manually
-      # because we need to pass custom OTHER_CPLUSPLUSFLAGS which mxcl/xcodebuild doesn't support directly
       - name: Select Xcode version
         uses: mxcl/xcodebuild@v3
         with:
