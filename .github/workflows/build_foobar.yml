@@ -52,7 +52,7 @@ jobs:
       - name: Select Xcode version
         uses: mxcl/xcodebuild@v3
         with:
-          xcode: '16.4'
+          xcode: '16.2'
           action: none
 
       - name: Verify Xcode configuration
