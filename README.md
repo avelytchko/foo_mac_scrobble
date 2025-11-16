@@ -1,4 +1,10 @@
-# 🎵 foo_mac_scrobble — Last.fm Scrobbler for foobar2000 macOS
+<img src="resources/.png" alt="foo_mac_scrobble logo" title="foo_mac_scrobble" align="right" height="60px" /></a>
+
+# foo_mac_scrobble — Last.fm Scrobbler for foobar2000 macOS
+
+[![Last Release](https://img.shields.io/github/v/release/avelytchko/foo_mac_scrobble?logo=github&label=latest&style=flat-square)](https://github.com/avelytchko/foo_mac_scrobble/releases)
+[![Build](https://img.shields.io/github/actions/workflow/status/avelytchko/foo_mac_scrobble/build_foobar.yml?branch=main&logo=github&style=flat-square)](https://nightly.link/avelytchko/foo_mac_scrobble/workflows/build_foobar/main)
+[![Downloads](https://img.shields.io/github/downloads/avelytchko/foo_mac_scrobble/total?logo=github&style=flat-square)](https://github.com/avelytchko/foo_mac_scrobble/releases/latest)
 
 > Native macOS **Last.fm scrobbler plugin** for [foobar2000](https://www.foobar2000.org/mac).  
 > Built with the official foobar2000 SDK and Cocoa (Objective-C++), featuring native preferences UI, offline queueing, async networking, and full Last.fm API support.
