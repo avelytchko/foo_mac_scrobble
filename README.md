@@ -145,16 +145,6 @@ You can build the component either via the **Xcode GUI** or the **CLI** (as in C
 - **Xcode 15+**
 - **Homebrew**
 - foobar2000 SDK (included in this repo)
-- **libcurl** installed from Homebrew:
-
-```bash
-brew install curl
-```
-
-The project expects `libcurl.dylib` at:
-```
-/opt/homebrew/opt/curl/lib/libcurl.dylib
-```
 
 ### 🧱 Build via Xcode (GUI)
 
