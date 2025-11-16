@@ -1,4 +1,4 @@
-<img src="resources/.png" alt="foo_mac_scrobble logo" title="foo_mac_scrobble" align="right" height="60px" /></a>
+<img src="docs/images/logo.png" alt="foo_mac_scrobble logo" title="foo_mac_scrobble" align="right" height="60px" /></a>
 
 # foo_mac_scrobble — Last.fm Scrobbler for foobar2000 macOS
 
