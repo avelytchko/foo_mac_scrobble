@@ -1,0 +1,173 @@
+Command line invocation:
+    /Applications/Xcode.app/Contents/Developer/usr/bin/xcodebuild -project foo_mac_scrobble.xcodeproj -scheme foo_mac_scrobble -configuration Release -derivedDataPath build MACOSX_DEPLOYMENT_TARGET=12.0 "ARCHS=arm64 x86_64" "VALID_ARCHS=arm64 x86_64" ONLY_ACTIVE_ARCH=NO
+
+Build settings from command line:
+    ARCHS = arm64 x86_64
+    MACOSX_DEPLOYMENT_TARGET = 12.0
+    ONLY_ACTIVE_ARCH = NO
+    VALID_ARCHS = arm64 x86_64
+
+--- xcodebuild: WARNING: Using the first of multiple matching destinations:
+{ platform:macOS, arch:arm64, id:00008132-000858160EC1801C, name:My Mac }
+{ platform:macOS, arch:x86_64, id:00008132-000858160EC1801C, name:My Mac }
+{ platform:macOS, name:Any Mac }
+ComputePackagePrebuildTargetDependencyGraph
+
+Prepare packages
+
+CreateBuildRequest
+
+SendProjectDescription
+
+CreateBuildOperation
+
+ComputeTargetDependencyGraph
+note: Building targets in dependency order
+note: Target dependency graph (6 targets)
+    Target 'foo_mac_scrobble' in project 'foo_mac_scrobble'
+        ➜ Implicit dependency on target 'foobar2000_component_client' in project 'foobar2000_component_client' via file 'libfoobar2000_component_client.a' in build phase 'Link Binary'
+        ➜ Implicit dependency on target 'shared' in project 'shared' via file 'libshared.a' in build phase 'Link Binary'
+        ➜ Implicit dependency on target 'foobar2000_SDK' in project 'foobar2000_SDK' via file 'libfoobar2000_SDK.a' in build phase 'Link Binary'
+        ➜ Implicit dependency on target 'foobar2000_SDK_helpers' in project 'foobar2000_SDK_helpers' via file 'libfoobar2000_SDK_helpers.a' in build phase 'Link Binary'
+        ➜ Implicit dependency on target 'pfc-Mac' in project 'pfc' via file 'libpfc-Mac.a' in build phase 'Link Binary'
+    Target 'pfc-Mac' in project 'pfc' (no dependencies)
+    Target 'foobar2000_SDK_helpers' in project 'foobar2000_SDK_helpers' (no dependencies)
+    Target 'foobar2000_SDK' in project 'foobar2000_SDK' (no dependencies)
+    Target 'shared' in project 'shared' (no dependencies)
+    Target 'foobar2000_component_client' in project 'foobar2000_component_client' (no dependencies)
+
+GatherProvisioningInputs
+
+CreateBuildDescription
+
+ExecuteExternalTool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -v -E -dM -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.1.sdk -x c++ -c /dev/null
+
+ExecuteExternalTool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -v -E -dM -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.1.sdk -x c -c /dev/null
+
+ExecuteExternalTool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -v -E -dM -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.1.sdk -x objective-c -c /dev/null
+
+ExecuteExternalTool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -v -E -dM -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.1.sdk -x c -c /dev/null
+
+ExecuteExternalTool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/libtool -V
+
+ExecuteExternalTool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -v -E -dM -arch x86_64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.1.sdk -x c++ -c /dev/null
+
+ExecuteExternalTool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -v -E -dM -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.1.sdk -x objective-c++ -c /dev/null
+
+ExecuteExternalTool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -v -E -dM -arch x86_64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.1.sdk -x c -c /dev/null
+
+ExecuteExternalTool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ld -version_details
+
+ExecuteExternalTool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -v -E -dM -arch x86_64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.1.sdk -x objective-c++ -c /dev/null
+
+ExecuteExternalTool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -v -E -dM -arch x86_64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.1.sdk -x objective-c -c /dev/null
+
+Build description signature: 9770dc74efd440d413774ef04ad6dfa1
+Build description path: /Users/rand/Downloads/git/foo_mac_scrobble/foobar2000/foo_mac_scrobble/build/Build/Intermediates.noindex/XCBuildData/9770dc74efd440d413774ef04ad6dfa1.xcbuilddata
+ClangStatCache /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang-stat-cache /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.1.sdk /Users/rand/Downloads/git/foo_mac_scrobble/foobar2000/foo_mac_scrobble/build/SDKStatCaches.noindex/macosx26.1-25B74-3ae1261907bdadc328169391a47051a6.sdkstatcache
+    cd /Users/rand/Downloads/git/foo_mac_scrobble/foobar2000/foo_mac_scrobble/foo_mac_scrobble.xcodeproj
+    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang-stat-cache /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.1.sdk -o /Users/rand/Downloads/git/foo_mac_scrobble/foobar2000/foo_mac_scrobble/build/SDKStatCaches.noindex/macosx26.1-25B74-3ae1261907bdadc328169391a47051a6.sdkstatcache
+
+ProcessPCH++ /Users/rand/Downloads/git/foo_mac_scrobble/foobar2000/foo_mac_scrobble/build/Build/Intermediates.noindex/PrecompiledHeaders/SharedPrecompiledHeaders/12556245787406832139/stdafx.h.gch /Users/rand/Downloads/git/foo_mac_scrobble/foobar2000/foo_mac_scrobble/stdafx.h normal arm64 objective-c++ com.apple.compilers.llvm.clang.1_0.compiler (in target 'foo_mac_scrobble' from project 'foo_mac_scrobble')
+    cd /Users/rand/Downloads/git/foo_mac_scrobble/foobar2000/foo_mac_scrobble
+    
+    Precompile of '/Users/rand/Downloads/git/foo_mac_scrobble/foobar2000/foo_mac_scrobble/stdafx.h' required by '/Users/rand/Downloads/git/foo_mac_scrobble/foobar2000/foo_mac_scrobble/Mac/fooLastfmMacPreferences.mm'
+    Using response file: /Users/rand/Downloads/git/foo_mac_scrobble/foobar2000/foo_mac_scrobble/build/Build/Intermediates.noindex/foo_mac_scrobble.build/Release/foo_mac_scrobble.build/Objects-normal/arm64/af3fcb34312c57c0f52879cdce924b91-common-args.resp
+    
+    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -x objective-c++-header -fmessage-length\=0 -fdiagnostics-show-note-include-stack -fmacro-backtrace-limit\=0 -fno-color-diagnostics -fmodules-prune-interval\=86400 -fmodules-prune-after\=345600 -fbuild-session-file\=/Users/rand/Downloads/git/foo_mac_scrobble/foobar2000/foo_mac_scrobble/build/ModuleCache.noindex/Session.modulevalidation -fmodules-validate-once-per-build-session -Wnon-modular-include-in-framework-module -Werror\=non-modular-include-in-framework-module -Wno-trigraphs -Wno-missing-field-initializers -Wno-missing-prototypes -Werror\=return-type -Wdocumentation -Wunreachable-code -Wquoted-include-in-framework-header -Wno-implicit-atomic-properties -Werror\=deprecated-objc-isa-usage -Wno-objc-interface-ivars -Werror\=objc-root-class -Wno-arc-repeated-use-of-weak -Wimplicit-retain-self -Wno-non-virtual-dtor -Wno-overloaded-virtual -Wno-exit-time-destructors -Wduplicate-method-match -Wno-missing-braces -Wparentheses -Wswitch -Wunused-function -Wno-unused-label -Wno-unused-parameter -Wunused-variable -Wunused-value -Wempty-body -Wuninitialized -Wconditional-uninitialized -Wno-unknown-pragmas -Wno-shadow -Wno-four-char-constants -Wno-conversion -Wconstant-conversion -Wint-conversion -Wbool-conversion -Wenum-conversion -Wno-float-conversion -Wnon-literal-null-conversion -Wobjc-literal-conversion -Wshorten-64-to-32 -Wno-newline-eof -Wno-selector -Wno-strict-selector-match -Wundeclared-selector -Wdeprecated-implementations -Wno-c++11-extensions -Wno-implicit-fallthrough -fstrict-aliasing -Wprotocol -Wdeprecated-declarations -Winvalid-offsetof -Wno-sign-conversion -Winfinite-recursion -Wmove -Wcomma -Wblock-capture-autoreleasing -Wstrict-prototypes -Wrange-loop-analysis -Wno-semicolon-before-method-body -Wunguarded-availability @/Users/rand/Downloads/git/foo_mac_scrobble/foobar2000/foo_mac_scrobble/build/Build/Intermediates.noindex/foo_mac_scrobble.build/Release/foo_mac_scrobble.build/Objects-normal/arm64/af3fcb34312c57c0f52879cdce924b91-common-args.resp -c /Users/rand/Downloads/git/foo_mac_scrobble/foobar2000/foo_mac_scrobble/stdafx.h -MD -MT dependencies -MF /Users/rand/Downloads/git/foo_mac_scrobble/foobar2000/foo_mac_scrobble/build/Build/Intermediates.noindex/PrecompiledHeaders/SharedPrecompiledHeaders/12556245787406832139/stdafx.h.d -o /Users/rand/Downloads/git/foo_mac_scrobble/foobar2000/foo_mac_scrobble/build/Build/Intermediates.noindex/PrecompiledHeaders/SharedPrecompiledHeaders/12556245787406832139/stdafx.h.gch --serialize-diagnostics /Users/rand/Downloads/git/foo_mac_scrobble/foobar2000/foo_mac_scrobble/build/Build/Intermediates.noindex/PrecompiledHeaders/SharedPrecompiledHeaders/12556245787406832139/stdafx.h.dia
+In file included from /Users/rand/Downloads/git/foo_mac_scrobble/foobar2000/foo_mac_scrobble/stdafx.h:2:
+In file included from ../helpers/foobar2000+atl.h:3:
+In file included from ../SDK/foobar2000-all.h:3:
+In file included from ../SDK/foobar2000.h:45:
+../SDK/playlist.h:326:7: warning: declaration is marked with '\deprecated' command but does not have a deprecation attribute [-Wdocumentation-deprecated-sync]
+  326 |         //! \deprecated (since 0.9.3) Use playlist_incoming_item_filter_v2::process_locations_async whenever possible
+      |             ~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+../SDK/playlist.h:327:2: note: add a deprecation attribute to the declaration to silence this warning
+  327 |         bool playlist_insert_locations(t_size p_playlist,t_size p_base,const pfc::list_base_const_t<const char*> & p_urls,bool p_select,fb2k::hwnd_t p_parentwnd);
+      |         ^
+      |         __AVAILABILITY_INTERNAL_DEPRECATED 
+../SDK/playlist.h:328:7: warning: declaration is marked with '\deprecated' command but does not have a deprecation attribute [-Wdocumentation-deprecated-sync]
+  328 |         //! \deprecated (since 0.9.3) Use playlist_incoming_item_filter_v2::process_locations_async whenever possible
+      |             ~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+../SDK/playlist.h:329:2: note: add a deprecation attribute to the declaration to silence this warning
+  329 |         bool activeplaylist_insert_locations(t_size p_base,const pfc::list_base_const_t<const char*> & p_urls,bool p_select,fb2k::hwnd_t p_parentwnd);
+      |         ^
+      |         __AVAILABILITY_INTERNAL_DEPRECATED 
+../SDK/playlist.h:760:6: warning: declaration is marked with '\deprecated' command but does not have a deprecation attribute [-Wdocumentation-deprecated-sync]
+  760 | //! \deprecated In 0.9.3 and up, instead of going thru dropped_files_data, you can use playlist_incoming_item_filter_v2::process_dropped_files_async().
+      |     ~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+../SDK/playlist.h:785:7: warning: declaration is marked with '\deprecated' command but does not have a deprecation attribute [-Wdocumentation-deprecated-sync]
+  785 |         //! \deprecated Use playlist_incoming_item_filter_v2::process_locations_async() when possible.
+      |             ~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+../SDK/playlist.h:786:2: note: add a deprecation attribute to the declaration to silence this warning
+  786 |         virtual bool process_locations(const pfc::list_base_const_t<const char*> & p_urls,pfc::list_base_t<metadb_handle_ptr> & p_out,bool p_filter,const char * p_restrict_mask_override, const char * p_exclude_mask_override,fb2k::hwnd_t p_parentwnd) = 0;
+      |         ^
+      |         __AVAILABILITY_INTERNAL_DEPRECATED 
+4 warnings generated.
+
+ProcessInfoPlistFile /Users/rand/Downloads/git/foo_mac_scrobble/foobar2000/foo_mac_scrobble/build/Build/Products/Release/foo_mac_scrobble.component/Contents/Info.plist /Users/rand/Downloads/git/foo_mac_scrobble/foobar2000/foo_mac_scrobble/build/Build/Intermediates.noindex/foo_mac_scrobble.build/Release/foo_mac_scrobble.build/empty-foo_mac_scrobble.plist (in target 'foo_mac_scrobble' from project 'foo_mac_scrobble')
+    cd /Users/rand/Downloads/git/foo_mac_scrobble/foobar2000/foo_mac_scrobble
+    builtin-infoPlistUtility /Users/rand/Downloads/git/foo_mac_scrobble/foobar2000/foo_mac_scrobble/build/Build/Intermediates.noindex/foo_mac_scrobble.build/Release/foo_mac_scrobble.build/empty-foo_mac_scrobble.plist -producttype com.apple.product-type.bundle -expandbuildsettings -platform macosx -o /Users/rand/Downloads/git/foo_mac_scrobble/foobar2000/foo_mac_scrobble/build/Build/Products/Release/foo_mac_scrobble.component/Contents/Info.plist
+
+Ld /Users/rand/Downloads/git/foo_mac_scrobble/foobar2000/foo_mac_scrobble/build/Build/Intermediates.noindex/foo_mac_scrobble.build/Release/foo_mac_scrobble.build/Objects-normal/x86_64/Binary/foo_mac_scrobble normal x86_64 (in target 'foo_mac_scrobble' from project 'foo_mac_scrobble')
+    cd /Users/rand/Downloads/git/foo_mac_scrobble/foobar2000/foo_mac_scrobble
+    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang++ -Xlinker -reproducible -target x86_64-apple-macos12.0 -bundle -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.1.sdk -Os -L/Users/rand/Downloads/git/foo_mac_scrobble/foobar2000/foo_mac_scrobble/build/Build/Intermediates.noindex/EagerLinkingTBDs/Release -L/Users/rand/Downloads/git/foo_mac_scrobble/foobar2000/foo_mac_scrobble/build/Build/Products/Release -F/Users/rand/Downloads/git/foo_mac_scrobble/foobar2000/foo_mac_scrobble/build/Build/Intermediates.noindex/EagerLinkingTBDs/Release -F/Users/rand/Downloads/git/foo_mac_scrobble/foobar2000/foo_mac_scrobble/build/Build/Products/Release -filelist /Users/rand/Downloads/git/foo_mac_scrobble/foobar2000/foo_mac_scrobble/build/Build/Intermediates.noindex/foo_mac_scrobble.build/Release/foo_mac_scrobble.build/Objects-normal/x86_64/foo_mac_scrobble.LinkFileList -dead_strip -Xlinker -object_path_lto -Xlinker /Users/rand/Downloads/git/foo_mac_scrobble/foobar2000/foo_mac_scrobble/build/Build/Intermediates.noindex/foo_mac_scrobble.build/Release/foo_mac_scrobble.build/Objects-normal/x86_64/foo_mac_scrobble_lto.o -Xlinker -dependency_info -Xlinker /Users/rand/Downloads/git/foo_mac_scrobble/foobar2000/foo_mac_scrobble/build/Build/Intermediates.noindex/foo_mac_scrobble.build/Release/foo_mac_scrobble.build/Objects-normal/x86_64/foo_mac_scrobble_dependency_info.dat -fobjc-arc -fobjc-link-runtime -lcurl -lcurl -lfoobar2000_component_client -framework Cocoa -lshared -lfoobar2000_SDK -lfoobar2000_SDK_helpers -lpfc-Mac -Xlinker -no_adhoc_codesign -o /Users/rand/Downloads/git/foo_mac_scrobble/foobar2000/foo_mac_scrobble/build/Build/Intermediates.noindex/foo_mac_scrobble.build/Release/foo_mac_scrobble.build/Objects-normal/x86_64/Binary/foo_mac_scrobble
+ld: warning: ignoring duplicate libraries: '-lcurl'
+
+CompileC /Users/rand/Downloads/git/foo_mac_scrobble/foobar2000/foo_mac_scrobble/build/Build/Intermediates.noindex/foo_mac_scrobble.build/Release/foo_mac_scrobble.build/Objects-normal/arm64/fooLastfmMacPreferences.o /Users/rand/Downloads/git/foo_mac_scrobble/foobar2000/foo_mac_scrobble/Mac/fooLastfmMacPreferences.mm normal arm64 objective-c++ com.apple.compilers.llvm.clang.1_0.compiler (in target 'foo_mac_scrobble' from project 'foo_mac_scrobble')
+    cd /Users/rand/Downloads/git/foo_mac_scrobble/foobar2000/foo_mac_scrobble
+    
+    Using response file: /Users/rand/Downloads/git/foo_mac_scrobble/foobar2000/foo_mac_scrobble/build/Build/Intermediates.noindex/foo_mac_scrobble.build/Release/foo_mac_scrobble.build/Objects-normal/arm64/af3fcb34312c57c0f52879cdce924b91-common-args.resp
+    
+    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -x objective-c++ -ivfsstatcache /Users/rand/Downloads/git/foo_mac_scrobble/foobar2000/foo_mac_scrobble/build/SDKStatCaches.noindex/macosx26.1-25B74-3ae1261907bdadc328169391a47051a6.sdkstatcache -fmessage-length\=0 -fdiagnostics-show-note-include-stack -fmacro-backtrace-limit\=0 -fno-color-diagnostics -fmodules-prune-interval\=86400 -fmodules-prune-after\=345600 -fbuild-session-file\=/Users/rand/Downloads/git/foo_mac_scrobble/foobar2000/foo_mac_scrobble/build/ModuleCache.noindex/Session.modulevalidation -fmodules-validate-once-per-build-session -Wnon-modular-include-in-framework-module -Werror\=non-modular-include-in-framework-module -Wno-trigraphs -Wno-missing-field-initializers -Wno-missing-prototypes -Werror\=return-type -Wdocumentation -Wunreachable-code -Wquoted-include-in-framework-header -Wno-implicit-atomic-properties -Werror\=deprecated-objc-isa-usage -Wno-objc-interface-ivars -Werror\=objc-root-class -Wno-arc-repeated-use-of-weak -Wimplicit-retain-self -Wno-non-virtual-dtor -Wno-overloaded-virtual -Wno-exit-time-destructors -Wduplicate-method-match -Wno-missing-braces -Wparentheses -Wswitch -Wunused-function -Wno-unused-label -Wno-unused-parameter -Wunused-variable -Wunused-value -Wempty-body -Wuninitialized -Wconditional-uninitialized -Wno-unknown-pragmas -Wno-shadow -Wno-four-char-constants -Wno-conversion -Wconstant-conversion -Wint-conversion -Wbool-conversion -Wenum-conversion -Wno-float-conversion -Wnon-literal-null-conversion -Wobjc-literal-conversion -Wshorten-64-to-32 -Wno-newline-eof -Wno-selector -Wno-strict-selector-match -Wundeclared-selector -Wdeprecated-implementations -Wno-c++11-extensions -Wno-implicit-fallthrough -fstrict-aliasing -Wprotocol -Wdeprecated-declarations -Winvalid-offsetof -Wno-sign-conversion -Winfinite-recursion -Wmove -Wcomma -Wblock-capture-autoreleasing -Wstrict-prototypes -Wrange-loop-analysis -Wno-semicolon-before-method-body -Wunguarded-availability @/Users/rand/Downloads/git/foo_mac_scrobble/foobar2000/foo_mac_scrobble/build/Build/Intermediates.noindex/foo_mac_scrobble.build/Release/foo_mac_scrobble.build/Objects-normal/arm64/af3fcb34312c57c0f52879cdce924b91-common-args.resp -include /Users/rand/Downloads/git/foo_mac_scrobble/foobar2000/foo_mac_scrobble/build/Build/Intermediates.noindex/PrecompiledHeaders/SharedPrecompiledHeaders/12556245787406832139/stdafx.h -MMD -MT dependencies -MF /Users/rand/Downloads/git/foo_mac_scrobble/foobar2000/foo_mac_scrobble/build/Build/Intermediates.noindex/foo_mac_scrobble.build/Release/foo_mac_scrobble.build/Objects-normal/arm64/fooLastfmMacPreferences.d --serialize-diagnostics /Users/rand/Downloads/git/foo_mac_scrobble/foobar2000/foo_mac_scrobble/build/Build/Intermediates.noindex/foo_mac_scrobble.build/Release/foo_mac_scrobble.build/Objects-normal/arm64/fooLastfmMacPreferences.dia -c /Users/rand/Downloads/git/foo_mac_scrobble/foobar2000/foo_mac_scrobble/Mac/fooLastfmMacPreferences.mm -o /Users/rand/Downloads/git/foo_mac_scrobble/foobar2000/foo_mac_scrobble/build/Build/Intermediates.noindex/foo_mac_scrobble.build/Release/foo_mac_scrobble.build/Objects-normal/arm64/fooLastfmMacPreferences.o
+/Users/rand/Downloads/git/foo_mac_scrobble/foobar2000/foo_mac_scrobble/Mac/fooLastfmMacPreferences.mm:219:35: warning: 'NSCenterTextAlignment' is deprecated: first deprecated in macOS 10.12 [-Wdeprecated-declarations]
+  219 |     [self.authButton setAlignment:NSCenterTextAlignment];
+      |                                   ^~~~~~~~~~~~~~~~~~~~~
+      |                                   NSTextAlignmentCenter
+In file included from /Users/rand/Downloads/git/foo_mac_scrobble/foobar2000/foo_mac_scrobble/Mac/fooLastfmMacPreferences.mm:1:
+In file included from /Users/rand/Downloads/git/foo_mac_scrobble/foobar2000/foo_mac_scrobble/Mac/../stdafx.h:6:
+In file included from /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.1.sdk/System/Library/Frameworks/Cocoa.framework/Headers/Cocoa.h:13:
+In file included from /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.1.sdk/System/Library/Frameworks/AppKit.framework/Headers/AppKit.h:15:
+In file included from /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.1.sdk/System/Library/Frameworks/AppKit.framework/Headers/NSAccessibilityColor.h:9:
+In file included from /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.1.sdk/System/Library/Frameworks/AppKit.framework/Headers/NSColor.h:46:
+In file included from /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.1.sdk/System/Library/Frameworks/AppKit.framework/Headers/NSApplication.h:14:
+In file included from /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.1.sdk/System/Library/Frameworks/AppKit.framework/Headers/NSUserActivity.h:11:
+In file included from /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.1.sdk/System/Library/Frameworks/AppKit.framework/Headers/NSDocument.h:14:
+In file included from /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.1.sdk/System/Library/Frameworks/AppKit.framework/Headers/NSMenu.h:12:
+In file included from /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.1.sdk/System/Library/Frameworks/AppKit.framework/Headers/NSMenuItem.h:14:
+In file included from /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.1.sdk/System/Library/Frameworks/AppKit.framework/Headers/NSCell.h:11:
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.1.sdk/System/Library/Frameworks/AppKit.framework/Headers/NSText.h:217:30: note: 'NSCenterTextAlignment' has been explicitly marked deprecated here
+  217 | static const NSTextAlignment NSCenterTextAlignment API_DEPRECATED_WITH_REPLACEMENT("NSTextAlignmentCenter", macos(10.0,10.12))  = NSTextAlignmentCenter;
+      |                              ^
+1 warning generated.
+
+Ld /Users/rand/Downloads/git/foo_mac_scrobble/foobar2000/foo_mac_scrobble/build/Build/Intermediates.noindex/foo_mac_scrobble.build/Release/foo_mac_scrobble.build/Objects-normal/arm64/Binary/foo_mac_scrobble normal arm64 (in target 'foo_mac_scrobble' from project 'foo_mac_scrobble')
+    cd /Users/rand/Downloads/git/foo_mac_scrobble/foobar2000/foo_mac_scrobble
+    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang++ -Xlinker -reproducible -target arm64-apple-macos12.0 -bundle -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.1.sdk -Os -L/Users/rand/Downloads/git/foo_mac_scrobble/foobar2000/foo_mac_scrobble/build/Build/Intermediates.noindex/EagerLinkingTBDs/Release -L/Users/rand/Downloads/git/foo_mac_scrobble/foobar2000/foo_mac_scrobble/build/Build/Products/Release -F/Users/rand/Downloads/git/foo_mac_scrobble/foobar2000/foo_mac_scrobble/build/Build/Intermediates.noindex/EagerLinkingTBDs/Release -F/Users/rand/Downloads/git/foo_mac_scrobble/foobar2000/foo_mac_scrobble/build/Build/Products/Release -filelist /Users/rand/Downloads/git/foo_mac_scrobble/foobar2000/foo_mac_scrobble/build/Build/Intermediates.noindex/foo_mac_scrobble.build/Release/foo_mac_scrobble.build/Objects-normal/arm64/foo_mac_scrobble.LinkFileList -dead_strip -Xlinker -object_path_lto -Xlinker /Users/rand/Downloads/git/foo_mac_scrobble/foobar2000/foo_mac_scrobble/build/Build/Intermediates.noindex/foo_mac_scrobble.build/Release/foo_mac_scrobble.build/Objects-normal/arm64/foo_mac_scrobble_lto.o -Xlinker -dependency_info -Xlinker /Users/rand/Downloads/git/foo_mac_scrobble/foobar2000/foo_mac_scrobble/build/Build/Intermediates.noindex/foo_mac_scrobble.build/Release/foo_mac_scrobble.build/Objects-normal/arm64/foo_mac_scrobble_dependency_info.dat -fobjc-arc -fobjc-link-runtime -lcurl -lcurl -lfoobar2000_component_client -framework Cocoa -lshared -lfoobar2000_SDK -lfoobar2000_SDK_helpers -lpfc-Mac -Xlinker -no_adhoc_codesign -o /Users/rand/Downloads/git/foo_mac_scrobble/foobar2000/foo_mac_scrobble/build/Build/Intermediates.noindex/foo_mac_scrobble.build/Release/foo_mac_scrobble.build/Objects-normal/arm64/Binary/foo_mac_scrobble
+ld: warning: ignoring duplicate libraries: '-lcurl'
+
+CreateUniversalBinary /Users/rand/Downloads/git/foo_mac_scrobble/foobar2000/foo_mac_scrobble/build/Build/Products/Release/foo_mac_scrobble.component/Contents/MacOS/foo_mac_scrobble normal arm64\ x86_64 (in target 'foo_mac_scrobble' from project 'foo_mac_scrobble')
+    cd /Users/rand/Downloads/git/foo_mac_scrobble/foobar2000/foo_mac_scrobble
+    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/lipo -create /Users/rand/Downloads/git/foo_mac_scrobble/foobar2000/foo_mac_scrobble/build/Build/Intermediates.noindex/foo_mac_scrobble.build/Release/foo_mac_scrobble.build/Objects-normal/arm64/Binary/foo_mac_scrobble /Users/rand/Downloads/git/foo_mac_scrobble/foobar2000/foo_mac_scrobble/build/Build/Intermediates.noindex/foo_mac_scrobble.build/Release/foo_mac_scrobble.build/Objects-normal/x86_64/Binary/foo_mac_scrobble -output /Users/rand/Downloads/git/foo_mac_scrobble/foobar2000/foo_mac_scrobble/build/Build/Products/Release/foo_mac_scrobble.component/Contents/MacOS/foo_mac_scrobble
+
+GenerateDSYMFile /Users/rand/Downloads/git/foo_mac_scrobble/foobar2000/foo_mac_scrobble/build/Build/Products/Release/foo_mac_scrobble.component.dSYM /Users/rand/Downloads/git/foo_mac_scrobble/foobar2000/foo_mac_scrobble/build/Build/Products/Release/foo_mac_scrobble.component/Contents/MacOS/foo_mac_scrobble (in target 'foo_mac_scrobble' from project 'foo_mac_scrobble')
+    cd /Users/rand/Downloads/git/foo_mac_scrobble/foobar2000/foo_mac_scrobble
+    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/dsymutil /Users/rand/Downloads/git/foo_mac_scrobble/foobar2000/foo_mac_scrobble/build/Build/Products/Release/foo_mac_scrobble.component/Contents/MacOS/foo_mac_scrobble -o /Users/rand/Downloads/git/foo_mac_scrobble/foobar2000/foo_mac_scrobble/build/Build/Products/Release/foo_mac_scrobble.component.dSYM
+
+CodeSign /Users/rand/Downloads/git/foo_mac_scrobble/foobar2000/foo_mac_scrobble/build/Build/Products/Release/foo_mac_scrobble.component (in target 'foo_mac_scrobble' from project 'foo_mac_scrobble')
+    cd /Users/rand/Downloads/git/foo_mac_scrobble/foobar2000/foo_mac_scrobble
+    
+    Signing Identity:     "Sign to Run Locally"
+    
+    /usr/bin/codesign --force --sign - --timestamp\=none --generate-entitlement-der /Users/rand/Downloads/git/foo_mac_scrobble/foobar2000/foo_mac_scrobble/build/Build/Products/Release/foo_mac_scrobble.component
+
+RegisterExecutionPolicyException /Users/rand/Downloads/git/foo_mac_scrobble/foobar2000/foo_mac_scrobble/build/Build/Products/Release/foo_mac_scrobble.component (in target 'foo_mac_scrobble' from project 'foo_mac_scrobble')
+    cd /Users/rand/Downloads/git/foo_mac_scrobble/foobar2000/foo_mac_scrobble
+    builtin-RegisterExecutionPolicyException /Users/rand/Downloads/git/foo_mac_scrobble/foobar2000/foo_mac_scrobble/build/Build/Products/Release/foo_mac_scrobble.component
+
+Touch /Users/rand/Downloads/git/foo_mac_scrobble/foobar2000/foo_mac_scrobble/build/Build/Products/Release/foo_mac_scrobble.component (in target 'foo_mac_scrobble' from project 'foo_mac_scrobble')
+    cd /Users/rand/Downloads/git/foo_mac_scrobble/foobar2000/foo_mac_scrobble
+    /usr/bin/touch -c /Users/rand/Downloads/git/foo_mac_scrobble/foobar2000/foo_mac_scrobble/build/Build/Products/Release/foo_mac_scrobble.component
+
+** BUILD SUCCEEDED **
+
