@@ -65,7 +65,8 @@ class scrobble_callback : public play_callback_static
                 }
 
                 // Safely assign metadata with fallback for missing values
-                auto safeMeta = [&](const char* key) {
+                auto safeMeta = [&](const char* key)
+                {
                     const char* v = info.meta_get(key, 0);
                     return v ? v : "";
                 };
@@ -94,10 +95,8 @@ class scrobble_callback : public play_callback_static
                 if (cfg_debug_enabled.get())
                 {
                     console::printf("Last.fm Debug: Artist: %s | Title: %s | Album: %s | Album Artist: %s",
-                                    m_current_track.artist.c_str(),
-                                    m_current_track.track.c_str(),
-                                    m_current_track.album.c_str(),
-                                    m_current_track.album_artist.c_str());
+                                    m_current_track.artist.c_str(), m_current_track.track.c_str(),
+                                    m_current_track.album.c_str(), m_current_track.album_artist.c_str());
                 }
             }
             catch (...)
