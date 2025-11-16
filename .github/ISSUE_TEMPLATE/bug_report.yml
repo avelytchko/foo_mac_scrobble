@@ -1,0 +1,99 @@
+name: Bug Report
+description: Report a bug or issue with foo_mac_scrobble
+title: "[BUG] "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to report this issue! Please fill out the information below.
+
+  - type: input
+    id: version
+    attributes:
+      label: Component Version
+      description: Which version of foo_mac_scrobble are you using?
+      placeholder: e.g., 0.1.2
+    validations:
+      required: true
+
+  - type: input
+    id: foobar-version
+    attributes:
+      label: foobar2000 Version
+      description: Which version of foobar2000 for Mac are you using?
+      placeholder: e.g., 2.26 preview 2025-11-07
+    validations:
+      required: true
+
+  - type: dropdown
+    id: os
+    attributes:
+      label: macOS Version
+      description: Which version of macOS are you running?
+      options:
+        - macOS Tahoe (26.x)
+        - macOS Sequoia (15.x)
+        - macOS Sonoma (14.x)
+        - macOS Ventura (13.x)
+        - Other (specify in description)
+    validations:
+      required: true
+
+  - type: dropdown
+    id: architecture
+    attributes:
+      label: Architecture
+      options:
+        - Apple Silicon
+        - Intel
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: Clear description of the issue
+      placeholder: What happened?
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to Reproduce
+      description: How can we reproduce this issue?
+      placeholder: |
+        1. Open foobar2000
+        2. Go to...
+        3. Click on...
+        4. See error
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected Behavior
+      description: What did you expect to happen?
+    validations:
+      required: true
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Console Logs
+      description: |
+        Please provide console output:
+        1. Quit foobar2000
+        2. Run in Terminal: `/Applications/foobar2000.app/Contents/MacOS/foobar2000`
+        3. Copy and paste the output here
+      render: shell
+      placeholder: Paste console output here...
+
+  - type: textarea
+    id: additional
+    attributes:
+      label: Additional Context
+      description: Any other information that might help (screenshots, configuration, etc.)

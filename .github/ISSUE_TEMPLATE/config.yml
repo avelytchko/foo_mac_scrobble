@@ -1,0 +1,8 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Last.fm API Documentation
+    url: https://www.last.fm/api
+    about: Official Last.fm API documentation
+  - name: foobar2000 for Mac
+    url: https://www.foobar2000.org/mac
+    about: Official foobar2000 for Mac homepage
