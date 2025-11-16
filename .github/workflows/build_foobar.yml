@@ -11,12 +11,14 @@ on:
       - '*.md'
       - workflows/release.yml
       - workflows/update_toc.yml
+      - ISSUE_TEMPLATE/**
   pull_request:
     paths-ignore:
       - 'docs/**'
       - '*.md'
       - workflows/release.yml
       - workflows/update_toc.yml
+      - ISSUE_TEMPLATE/**
 
 jobs:
   build:
