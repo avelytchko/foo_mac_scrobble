@@ -143,7 +143,6 @@ You can build the component either via the **Xcode GUI** or the **CLI** (as in C
 
 - **macOS 12+**
 - **Xcode 15+**
-- **Homebrew**
 - foobar2000 SDK (included in this repo)
 
 ### 🧱 Build via Xcode (GUI)
