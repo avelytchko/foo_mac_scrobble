@@ -14,6 +14,7 @@
 #include <SDK/metadb.h>
 #include <SDK/play_callback.h>
 #include <SDK/playback_control.h>
+#include <cmath> // for std::isfinite
 
 namespace foo_lastfm
 {
@@ -43,6 +44,7 @@ class scrobble_callback : public play_callback_static
 
         try
         {
+            m_scrobbled = false;
             static_api_ptr_t<playback_control> playback_control;
             if (!playback_control->is_playing())
                 return;
@@ -51,42 +53,60 @@ class scrobble_callback : public play_callback_static
             if (!track->get_info(info))
                 return;
 
-            // Safely assign metadata with nullptr check
-            const char* artist_ptr = info.meta_get("artist", 0);
-            m_current_track.artist = artist_ptr ? artist_ptr : "";
-
-            const char* title_ptr = info.meta_get("title", 0);
-            m_current_track.track = title_ptr ? title_ptr : "";
-
-            const char* album_ptr = info.meta_get("album", 0);
-            m_current_track.album = album_ptr ? album_ptr : "";
-
-            const char* album_artist_ptr = info.meta_get("album artist", 0);
-            m_current_track.album_artist = album_artist_ptr ? album_artist_ptr : "";
-
-            m_length = info.get_length();
-            m_current_track.duration = static_cast<int>(m_length);
-
-            // Track number is safe, pfc::string8 handles nullptr
-            pfc::string8 track_number = info.meta_get("tracknumber", 0);
-            m_current_track.track_number = track_number.is_empty() ? 0 : atoi(track_number.c_str());
-
-            m_current_track.timestamp = time(nullptr); // Initial timestamp for now playing
-
-            // Log metadata for debugging
-            if (cfg_debug_enabled.get())
+            // Validate metadata safety to avoid player crashes
+            try
             {
-                console::printf("Last.fm Debug: Artist: %s, Title: %s, Album: %s, Album Artist: %s",
-                                m_current_track.artist.c_str(), m_current_track.track.c_str(),
-                                m_current_track.album.c_str(), m_current_track.album_artist.c_str());
+                // Length must be valid
+                m_length = info.get_length();
+                if (!(m_length > 0.0 && std::isfinite(m_length)))
+                {
+                    console::print("Last.fm Scrobbler: Track length invalid or missing, skipping.");
+                    return;
+                }
+
+                // Safely assign metadata with fallback for missing values
+                auto safeMeta = [&](const char* key) {
+                    const char* v = info.meta_get(key, 0);
+                    return v ? v : "";
+                };
+
+                m_current_track.artist = safeMeta("artist");
+                m_current_track.track = safeMeta("title");
+                m_current_track.album = safeMeta("album");
+                m_current_track.album_artist = safeMeta("album artist");
+
+                // Track number (must validate ptr manually, pfc::string8 won't!)
+                const char* tn = info.meta_get("tracknumber", 0);
+                if (tn && *tn)
+                    m_current_track.track_number = atoi(tn);
+                else
+                    m_current_track.track_number = 0;
+
+                m_current_track.duration = static_cast<int>(m_length);
+                m_current_track.timestamp = time(nullptr); // Initial timestamp for now playing
+
+                if (m_current_track.artist.empty() || m_current_track.track.empty())
+                {
+                    console::print("Last.fm Scrobbler: Missing metadata — skip to prevent crash.");
+                    return;
+                }
+
+                if (cfg_debug_enabled.get())
+                {
+                    console::printf("Last.fm Debug: Artist: %s | Title: %s | Album: %s | Album Artist: %s",
+                                    m_current_track.artist.c_str(),
+                                    m_current_track.track.c_str(),
+                                    m_current_track.album.c_str(),
+                                    m_current_track.album_artist.c_str());
+                }
             }
-
-            if (m_current_track.artist.empty() || m_current_track.track.empty())
+            catch (...)
             {
-                console::print("Last.fm Scrobbler: Skipping track due to missing metadata");
+                console::print("Last.fm Scrobbler: Metadata exception — skipping track.");
                 return;
             }
 
+            // Setup scrobbling threshold
             m_threshold = (cfg_scrobble_percent.get() / 100.0) * m_length;
             if (m_threshold > 240)
                 m_threshold = 240; // Max 4 minutes
@@ -95,9 +115,9 @@ class scrobble_callback : public play_callback_static
 
             m_scrobbled = false;
 
+            // Update now playing asynchronously — non-blocking
             if (g_lastfm_api && g_lastfm_api->has_saved_session())
             {
-                // Asynchronous call - does not block the UI
                 g_lastfm_api->update_now_playing_async(m_current_track);
                 console::print("Last.fm Scrobbler: Updating now playing...");
             }
