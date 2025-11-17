@@ -1,26 +1,3 @@
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
-## 📚 Table of Contents
-
-- [foo_mac_scrobble — Last.fm Scrobbler for foobar2000 macOS](#foo_mac_scrobble--lastfm-scrobbler-for-foobar2000-macos)
-  - [✨ Features](#-features)
-  - [📦 Installation](#-installation)
-    - [Via foobar2000 Preferences (Recommended)](#via-foobar2000-preferences-recommended)
-    - [Manual Installation](#manual-installation)
-  - [⚙️ Configuration](#-configuration)
-    - [Step 1: Get API Credentials](#step-1-get-api-credentials)
-    - [Step 2: Authenticate](#step-2-authenticate)
-    - [Step 3: Configure Preferences](#step-3-configure-preferences)
-  - [🔧 Quick Troubleshooting](#-quick-troubleshooting)
-    - [Scrobbles not appearing on Last.fm](#scrobbles-not-appearing-on-lastfm)
-    - [Need to re-authenticate](#need-to-re-authenticate)
-    - [Offline queue not syncing](#offline-queue-not-syncing)
-  - [📸 Screenshots](#-screenshots)
-  - [💬 Support & Contributing](#-support--contributing)
-  - [📄 License & Credits](#-license--credits)
-
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
 <img src="docs/images/logo.png" alt="foo_mac_scrobble logo" title="foo_mac_scrobble" align="right" height="60px" />
 
 # foo_mac_scrobble — Last.fm Scrobbler for foobar2000 macOS
