@@ -1,4 +1,4 @@
-<img src="docs/images/logo.png" alt="foo_mac_scrobble logo" title="foo_mac_scrobble" align="right" height="60px" /></a>
+<img src="docs/images/logo.png" alt="foo_mac_scrobble logo" title="foo_mac_scrobble" align="right" height="60px" />
 
 # foo_mac_scrobble — Last.fm Scrobbler for foobar2000 macOS
 
@@ -6,278 +6,130 @@
 [![Build](https://img.shields.io/github/actions/workflow/status/avelytchko/foo_mac_scrobble/build_foobar.yml?branch=main&logo=github&style=flat-square)](https://nightly.link/avelytchko/foo_mac_scrobble/workflows/build_foobar/main)
 [![Downloads](https://img.shields.io/github/downloads/avelytchko/foo_mac_scrobble/total?logo=github&style=flat-square)](https://github.com/avelytchko/foo_mac_scrobble/releases/latest)
 
-> Native macOS **Last.fm scrobbler plugin** for [foobar2000](https://www.foobar2000.org/mac).  
-> Built with the official foobar2000 SDK and Cocoa (Objective-C++), featuring native preferences UI, offline queueing, async networking, and full Last.fm API support.
-
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
-## 📚 Table of Contents
-
-- [✨ Features](#-features)
-- [📦 Installation](#-installation)
-  - [Download the Release](#download-the-release)
-  - [Recommended — Install via foobar2000 Preferences](#recommended--install-via-foobar2000-preferences)
-  - [Manual Installation (Alternative)](#manual-installation-alternative)
-- [🧰 Configuration](#-configuration)
-  - [1. Enter your API credentials](#1-enter-your-api-credentials)
-  - [2. Authenticate](#2-authenticate)
-  - [3. Adjust preferences](#3-adjust-preferences)
-- [📸 Screenshots](#-screenshots)
-- [🧠 How It Works](#-how-it-works)
-- [⚙️ Building](#-building)
-  - [🧩 Prerequisites](#-prerequisites)
-  - [🧱 Build via Xcode (GUI)](#-build-via-xcode-gui)
-  - [🧱 Build via CLI (same as GitHub Actions)](#-build-via-cli-same-as-github-actions)
-  - [🧪 CI / GitHub Actions](#-ci--github-actions)
-- [🧩 Repository Structure](#-repository-structure)
-- [🧠 Technical Overview](#-technical-overview)
-- [🧹 Clearing Cache / Troubleshooting](#-clearing-cache--troubleshooting)
-- [🧾 License](#-license)
-- [💬 Credits](#-credits)
-
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+**Native Last.fm scrobbler for foobar2000 on macOS.** Automatically track your listening history with offline queueing, native preferences UI, and seamless Last.fm API integration. Built with the official foobar2000 SDK and Cocoa frameworks for a lightweight, reliable experience that respects your privacy and system resources.
 
 ---
 
 ## ✨ Features
 
-- 🎧 Automatically **scrobbles tracks** you play to Last.fm
-- 🔄 **Offline queueing:** saves plays when offline and submits later
-- 🔐 Secure **authentication** with your own Last.fm API key
-- ⚙️ Native **macOS Preferences UI** for setup and debugging
-- 📊 Adjustable **scrobble threshold** (percent of track listened)
-- 🧰 Integrated **debug logging** visible in foobar2000 console
-- 🚀 Fully asynchronous and non-blocking network I/O (libcurl)
-- 🪶 Lightweight, native, and open source
+- 🎧 **Automatic scrobbling** — tracks are submitted to Last.fm as you listen
+- 📶 **Offline queueing** — stores plays locally when offline and syncs automatically when reconnected
+- 🔐 **Secure authentication** — uses your own Last.fm API credentials with encrypted session keys
+- ⚙️ **Native macOS UI** — fully integrated preferences panel with Cocoa interface
+- 📊 **Configurable thresholds** — set when tracks should be scrobbled (percentage of playback)
+- 🪲 **Built-in debugging** — optional console logging for troubleshooting
+- 🚀 **Async networking** — non-blocking I/O keeps foobar2000 responsive
+- 🪶 **Lightweight & open source** — minimal resource usage, MIT licensed
 
 ---
 
 ## 📦 Installation
 
-### Download the Release
+### Via foobar2000 Preferences (Recommended)
 
-1. Download the latest release ZIP from [👉 Releases](../../releases)
-2. Unzip it — it will contain:
-   ```
-   foo_mac_scrobble.component/
-   ```
+1. Download the latest release from [**Releases**](../../releases)
+2. Unzip the file to get `foo_mac_scrobble.component/`
+3. Open **foobar2000 → Preferences → Components**
+4. Click the **"+"** button and select the `foo_mac_scrobble.component` folder
+5. Restart foobar2000
 
-### Recommended — Install via foobar2000 Preferences
-1. Open foobar2000 → Preferences → Components
-2. Click the “+” button in the top-right corner
-3. Select the extracted component folder:
-   ```
-   foo_mac_scrobble.component/
-   ```
+### Manual Installation
 
-### Manual Installation (Alternative)
-1. Copy the extracted component folder into your foobar2000 user components directory:
-   ```
-   ~/Library/foobar2000-v2/user-components/foo_mac_scrobble/
-   ```
-4. Restart foobar2000  
-   → the plugin will load automatically
+Copy the component folder to your user components directory:
+
+```bash
+~/Library/foobar2000-v2/user-components/foo_mac_scrobble/
+```
+
+Then restart foobar2000.
 
 ---
 
-## 🧰 Configuration
+## ⚙️ Configuration
 
-Open **Preferences → Tools → Last.fm Scrobbler**
+Open **foobar2000 → Preferences → Tools → Last.fm Scrobbler**
 
-### 1. Enter your API credentials
+### Step 1: Get API Credentials
 
-- Get them from [https://www.last.fm/api/account/create](https://www.last.fm/api/account/create)
-- Paste your **API Key** and **API Secret**
+Visit [Last.fm API Account Creation](https://www.last.fm/api/account/create) and create an API account. You'll receive:
+- **API Key**
+- **API Secret**
 
-### 2. Authenticate
+Paste both into the preferences panel.
 
-- Click **Authenticate**
-- A browser window opens → approve access on Last.fm
-- After "Invalid API key" appears (expected), copy the full URL
-- Paste the full URL back into the dialog and press OK
-- You should see a ✅ *Authenticated as: yourusername* message
+### Step 2: Authenticate
 
-### 3. Adjust preferences
+1. Click **Authenticate** — your browser will open to Last.fm
+2. Approve access on the Last.fm authorization page
+3. After approval, you'll see an "Invalid API key" error (this is expected)
+4. Copy the **full URL** from your browser's address bar
+5. Paste it into the component's dialog and press **OK**
+6. You should see: ✅ **Authenticated as: yourusername**
 
-- Set "Scrobble after listening to" percentage
-- Toggle "Enable Debug Logging" as needed
+### Step 3: Configure Preferences
 
-> 💡 **Tip:** Debug messages are shown in foobar2000's Console.
+- **Scrobble threshold:** Set the percentage of track completion required (default: 50%)
+- **Debug logging:** Enable to see detailed output in foobar2000's Console
+
+> 💡 **Tip:** Debug messages appear in **View → Console** and help diagnose authentication or network issues.
+
+---
+
+## 🔧 Quick Troubleshooting
+
+### Scrobbles not appearing on Last.fm
+
+- Check that you're authenticated (preferences should show your username)
+- Enable debug logging and check the Console for error messages
+- Verify your internet connection is active
+
+### Need to re-authenticate
+
+Delete these files and restart foobar2000:
+
+```bash
+~/Library/foobar2000-v2/lastfm_session.json
+~/Library/foobar2000-v2/lastfm_scrobble_queue.json
+```
+
+Then go through the authentication steps again.
+
+### Offline queue not syncing
+
+The component automatically retries failed scrobbles when you're back online. If issues persist, check Console logs with debug mode enabled.
+
+**More help:** See the [Wiki](../../wiki) for detailed troubleshooting, building from source, and technical documentation.
 
 ---
 
 ## 📸 Screenshots
 
-**Preferences UI**
+**Preferences Panel**
 
-<p align="left">
-  <img src="docs/images/preferences.jpg" width="50%">
-</p>
+<img src="docs/images/preferences.jpg" width="500px">
 
 **Authentication Flow**
 
-<p align="left">
-  <img src="docs/images/auth_flow.jpg" width="40%">
-</p>
-
-**Debug Console**
-
-<p align="left">
-  <img src="docs/images/console_log.jpg" width="50%">
-</p>
+<img src="docs/images/auth_flow.jpg" width="400px">
 
 ---
 
-## 🧠 How It Works
+## 💬 Support & Contributing
 
-- The plugin monitors foobar2000 playback events
-- When a track passes your configured threshold (e.g. 50%), it's scrobbled
-- If offline, tracks are stored in a local JSON queue:
-  ```
-  ~/Library/foobar2000-v2/lastfm_scrobble_queue.json
-  ```
-- Once network connectivity returns, the queue is retried automatically
-- Authentication info is persisted in `lastfm_session.json`
+- **Report issues or Feature requests:** Use [GitHub Issues](../../issues) with the provided templates
+- **Build from source:** See [Building Guide](../../wiki/Building-from-Source) in the Wiki
+- **Contributing:** Pull requests welcome! Check [Contributing Guidelines](CONTRIBUTING.md)
 
 ---
 
-## ⚙️ Building
+## 📄 License & Credits
 
-You can build the component either via the **Xcode GUI** or the **CLI** (as in CI workflow).
+**MIT License** © [Oleksandr Velychko](https://github.com/avelytchko)
 
-### 🧩 Prerequisites
-
-- **macOS 12+**
-- **Xcode 15+**
-- foobar2000 SDK (included in this repo)
-
-### 🧱 Build via Xcode (GUI)
-
-1. Open the project:
-   ```bash
-   foobar2000/foo_mac_scrobble/foo_mac_scrobble.xcodeproj
-   ```
-
-2. Select the `foo_mac_scrobble` scheme
-
-3. Ensure **Build Configuration: Release**
-
-4. Press **⌘B** (or choose **Product → Build**)
-
-That's it — all paths and settings are preconfigured.
-
-On success, you'll find the compiled component in:
-```
-~/Library/Developer/Xcode/DerivedData/foo_mac_scrobble-<RANDOM_ID>/Build
-```
-
-### 🧱 Build via CLI (same as GitHub Actions)
-
-You can replicate the exact workflow used in CI:
-
-```bash
-cd foobar2000/foo_mac_scrobble
-xcodebuild -project foo_mac_scrobble.xcodeproj \
-  -scheme foo_mac_scrobble \
-  -configuration Release \
-  -derivedDataPath build \
-  OTHER_CPLUSPLUSFLAGS="-DFOO_LASTFM_DEBUG_DEFAULT=1 \
-  -DFOO_LASTFM_CI_API_KEY='\"<YOUR_API_KEY>\"' \
-  -DFOO_LASTFM_CI_API_SECRET='\"<YOUR_API_SECRET>\"'"
-```
-
-After a successful build, copy the resulting directory:
-
-```bash
-find build -name "foo_mac_scrobble.component" -exec cp -r {} \
-  ~/Library/foobar2000-v2/user-components/foo_mac_scrobble/ \;
-```
-
-### 🧪 CI / GitHub Actions
-
-The repository includes a full workflow (`.github/workflows/build_foobar.yml`) that:
-
-- Builds the plugin via Xcode on `macos-latest`
-- Downloads foobar2000
-- Installs the built component
-- Runs a self-test verifying Last.fm API initialization and queue processing
-- Uploads build logs as artifacts
-
-See [workflow source](.github/workflows/build_foobar.yml) for details.
-
----
-
-## 🧩 Repository Structure
-
-```
-.
-├── foobar2000/
-│   └── foo_mac_scrobble/           # Main plugin source
-│       ├── Mac/                    # Cocoa UI code
-│       ├── *.cpp / *.h             # Core logic
-│       ├── foo_mac_scrobble.xcodeproj
-│       └── thirdparty/
-├── libPPUI/                        # Foobar UI library
-├── pfc/                            # Core support library
-├── LICENSE
-├── sdk-license.txt
-└── sdk-readme.html
-```
-
----
-
-## 🧠 Technical Overview
-
-| Module | Description |
-|--------|-------------|
-| `lastfm_api.*` | Handles Last.fm API calls, auth, and signatures |
-| `session_manager.*` | Stores and loads Last.fm session key |
-| `scrobble_queue.*` | Manages offline queue and retry logic |
-| `play_callback.cpp` | Hooks into foobar playback events |
-| `fooLastfmMacPreferences.*` | Native macOS preferences UI |
-| `initquit.cpp` | Plugin lifecycle and background worker |
-| `config.*` | Foobar config GUIDs and variables |
-
----
-
-## 🧹 Clearing Cache / Troubleshooting
-
-If scrobbling stops or re-auth fails, you can safely delete:
-
-```
-~/Library/foobar2000-v2/lastfm_session.json
-~/Library/foobar2000-v2/lastfm_scrobble_queue.json
-```
-
-Then restart foobar2000 and re-authenticate.
-
-Enable **Debug Logging** in Preferences to see detailed console output:
-
-```
-Last.fm: Queue initialized, 10 tracks loaded
-Last.fm: Successfully scrobbled from queue
-Last.fm: Successfully saved queue to disk
-```
-
----
-
-## 🧾 License
-
-**MIT License** © Oleksandr Velychko
-
-See [LICENSE](LICENSE) for details.
-
----
-
-> 🧠 Developed in a vibe-coding workflow — collaboratively between human insight and LLM assistance.  
-> The result: a stable, native macOS foobar2000 component that balances rapid prototyping with real engineering discipline.
-
----
-
-## 💬 Credits
-
+Built with:
 - [foobar2000 SDK](https://www.foobar2000.org/SDK)
 - [Last.fm API](https://www.last.fm/api)
-- Built and tested with ❤️ on macOS
+- Cocoa frameworks (macOS native)
 
-**If you enjoy this plugin — star the repo or share feedback on foobar2000 forums!**
+**Enjoy the plugin?** Star the repo ⭐ or share feedback on [foobar2000 forums](https://www.foobar2000.org/forum)!
+
