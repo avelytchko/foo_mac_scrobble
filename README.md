@@ -118,7 +118,7 @@ The component automatically retries failed scrobbles when you're back online. If
 
 - **Report issues or Feature requests:** Use [GitHub Issues](../../issues) with the provided templates
 - **Build from source:** See [Building Guide](../../wiki/Building-from-Source) in the Wiki
-- **Contributing:** Pull requests welcome! Check [Contributing Guidelines](CONTRIBUTING.md)
+- **Contributing:** Pull requests welcome! Check [Contributing Guidelines](../../wiki/Contributing)
 
 ---
 
