@@ -7,7 +7,7 @@
 // update finder to find updates; for that to work, you must have ONLY ONE declaration per DLL. If there are multiple
 // declarations, the component is assumed to be outdated and a version number of "0" is assumed, to overwrite the
 // component with whatever is currently on the site assuming that it comes with proper version numbers.
-DECLARE_COMPONENT_VERSION("Last.fm Scrobbler", "0.1.2",
+DECLARE_COMPONENT_VERSION("Last.fm Scrobbler", "0.1.3",
                           "Last.fm scrobbler for foobar2000 on macOS\n"
                           "\n"
                           "Automatically scrobbles tracks to Last.fm\n"

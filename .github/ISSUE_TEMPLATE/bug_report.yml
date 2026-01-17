@@ -13,7 +13,7 @@ body:
     attributes:
       label: Component Version
       description: Which version of foo_mac_scrobble are you using?
-      placeholder: e.g., 0.1.2
+      placeholder: e.g., 0.1.3
     validations:
       required: true
 
@@ -22,7 +22,7 @@ body:
     attributes:
       label: foobar2000 Version
       description: Which version of foobar2000 for Mac are you using?
-      placeholder: e.g., 2.26 preview 2025-11-07
+      placeholder: e.g., 2.26 preview 2026-01-07
     validations:
       required: true
 
