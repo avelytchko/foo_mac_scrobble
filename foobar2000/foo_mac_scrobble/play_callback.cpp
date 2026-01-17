@@ -61,6 +61,10 @@ class scrobble_callback : public play_callback_static
                 if (!(m_length > 0.0 && std::isfinite(m_length)))
                 {
                     console::print("Last.fm Scrobbler: Track length invalid or missing, skipping.");
+                    // Clear current track data to prevent re-scrobbling when switching to streams
+                    m_current_track = LastfmApi::TrackInfo();
+                    m_scrobbled = false;
+                    m_threshold = 0;
                     return;
                 }
 
@@ -132,6 +136,10 @@ class scrobble_callback : public play_callback_static
         if (!cfg_enabled.get() || m_scrobbled || p_time < m_threshold)
             return;
 
+        // Don't scrobble if current track data is empty (e.g., after switching to radio streams)
+        if (m_current_track.artist.empty() || m_current_track.track.empty())
+            return;
+
         try
         {
             static_api_ptr_t<playback_control> playback_control;
@@ -175,6 +183,8 @@ class scrobble_callback : public play_callback_static
         m_scrobbled = false;
         m_length = 0;
         m_threshold = 0;
+        // Clear current track data to prevent stale data from being used
+        m_current_track = LastfmApi::TrackInfo();
     }
 
     void on_playback_pause(bool p_state) override
