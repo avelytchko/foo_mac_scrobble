@@ -25,7 +25,7 @@ jobs:
     runs-on: macos-latest
 
     env:
-      FOOBAR2000_VERSION: "2.25.3"
+      FOOBAR2000_VERSION: "2.25.5"
       FOOBAR_WAIT_SECS: 120
       FOOBAR_LOG_STRINGS: 500
       FOOBAR_LOG_FILE: "foobar.log"
