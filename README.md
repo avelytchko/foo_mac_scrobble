@@ -12,14 +12,14 @@
 
 ## ✨ Features
 
-- 🎧 **Automatic scrobbling** — tracks are submitted to Last.fm as you listen
-- 📶 **Offline queueing** — stores plays locally when offline and syncs automatically when reconnected
-- 🔐 **Secure authentication** — uses your own Last.fm API credentials with encrypted session keys
-- ⚙️ **Native macOS UI** — fully integrated preferences panel with Cocoa interface
-- 📊 **Configurable thresholds** — set when tracks should be scrobbled (percentage of playback)
-- 🪲 **Built-in debugging** — optional console logging for troubleshooting
-- 🚀 **Async networking** — non-blocking I/O keeps foobar2000 responsive
-- 🪶 **Lightweight & open source** — minimal resource usage, MIT licensed
+- **Automatic scrobbling** — tracks are submitted to Last.fm as you listen
+- **Offline queueing** — stores plays locally when offline and syncs automatically when reconnected
+- **Secure authentication** — uses your own Last.fm API credentials with encrypted session keys
+- **Native macOS UI** — fully integrated preferences panel with Cocoa interface
+- **Configurable thresholds** — set when tracks should be scrobbled (percentage of playback)
+- **Built-in debugging** — optional console logging for troubleshooting
+- **Async networking** — non-blocking I/O keeps foobar2000 responsive
+- **Lightweight & open source** — minimal resource usage, MIT licensed
 
 ---
 
