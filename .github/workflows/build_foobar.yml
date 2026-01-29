@@ -74,10 +74,15 @@ jobs:
           echo "::group::🧩 Xcode Build"
           mkdir -p build
           set -o pipefail
+
+          # Check available SDKs
+          echo "Available SDKs:"
+          xcodebuild -showsdks | grep macosx
+
+          # Use latest available SDK but with deployment target 12.0
           xcodebuild -project foo_mac_scrobble.xcodeproj \
             -scheme foo_mac_scrobble \
             -configuration Release \
-            -sdk macosx12.3 \
             ARCHS="arm64 x86_64" \
             VALID_ARCHS="arm64 x86_64" \
             ONLY_ACTIVE_ARCH=NO \
