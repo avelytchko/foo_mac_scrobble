@@ -347,7 +347,7 @@ bool LastfmApi::send_api_request(const std::map<std::string, std::string>& param
     curl_easy_setopt(curl, CURLOPT_TIMEOUT, 15L);
     curl_easy_setopt(curl, CURLOPT_CONNECTTIMEOUT, 5L);
     curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 0L);
-    curl_easy_setopt(curl, CURLOPT_USERAGENT, "foo_mac_scrobble/0.1.3 (macOS)");
+    curl_easy_setopt(curl, CURLOPT_USERAGENT, "foo_mac_scrobble/0.1.4 (macOS)");
     curl_easy_setopt(curl, CURLOPT_ACCEPT_ENCODING, "");
 
     // Log request details for debugging
@@ -364,7 +364,7 @@ bool LastfmApi::send_api_request(const std::map<std::string, std::string>& param
             FB2K_console_formatter() << "CURLOPT_TIMEOUT: 15";
             FB2K_console_formatter() << "CURLOPT_CONNECTTIMEOUT: 5";
             FB2K_console_formatter() << "CURLOPT_FOLLOWLOCATION: 0";
-            FB2K_console_formatter() << "CURLOPT_USERAGENT: foo_mac_scrobble/0.1.3 (macOS)";
+            FB2K_console_formatter() << "CURLOPT_USERAGENT: foo_mac_scrobble/0.1.4 (macOS)";
             FB2K_console_formatter() << "CURLOPT_ACCEPT_ENCODING: <empty>";
             FB2K_console_formatter() << "Post data length: " << (int)post_data.size();
             FB2K_console_formatter() << "----------------------------";

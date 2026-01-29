@@ -32,14 +32,56 @@ static std::string mask_show_first_last(const std::string &s, size_t first = 2, 
 
 @implementation fooLastfmMacPreferences
 
+- (instancetype)init {
+    self = [super init];
+    if (self) {
+        if (foo_lastfm::cfg_debug_enabled.get()) {
+            FB2K_console_formatter() << "Last.fm UI: fooLastfmMacPreferences init called";
+        }
+    }
+    return self;
+}
+
+- (void)loadView {
+    if (foo_lastfm::cfg_debug_enabled.get()) {
+        FB2K_console_formatter() << "Last.fm UI: loadView called";
+    }
+
+    // Create view manually for macOS 12 compatibility
+    NSView* mainView = [[NSView alloc] init];
+    // Don't set translatesAutoresizingMaskIntoConstraints:NO for main view
+    self.view = mainView;
+    
+    if (foo_lastfm::cfg_debug_enabled.get()) {
+        FB2K_console_formatter() << "Last.fm UI: loadView completed";
+    }
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    if (foo_lastfm::cfg_debug_enabled.get()) {
+        FB2K_console_formatter() << "Last.fm UI: viewDidLoad called";
+        FB2K_console_formatter() << "Last.fm UI: macOS version: " << [[NSProcessInfo processInfo].operatingSystemVersionString UTF8String];
+        FB2K_console_formatter() << "Last.fm UI: view frame: " << NSStringFromRect(self.view.frame).UTF8String;
+    }
+    
     [self setupUI];
     showingSecrets = NO;
+    
+    if (foo_lastfm::cfg_debug_enabled.get()) {
+        FB2K_console_formatter() << "Last.fm UI: viewDidLoad completed";
+    }
 }
 
 - (void)viewWillAppear {
     [super viewWillAppear];
+    
+    if (foo_lastfm::cfg_debug_enabled.get()) {
+        FB2K_console_formatter() << "Last.fm UI: viewWillAppear called";
+        FB2K_console_formatter() << "Last.fm UI: view bounds: " << NSStringFromRect(self.view.bounds).UTF8String;
+        FB2K_console_formatter() << "Last.fm UI: view subviews count: " << (int)self.view.subviews.count;
+    }
 
     // Load current settings from configuration
     realApiKey    = foo_lastfm::cfg_api_key.get();
@@ -65,21 +107,41 @@ static std::string mask_show_first_last(const std::string &s, size_t first = 2, 
 }
 
 - (void)setupUI {
+    if (foo_lastfm::cfg_debug_enabled.get()) {
+        FB2K_console_formatter() << "Last.fm UI: setupUI started";
+    }
+    
     // Create main stack view for organizing UI elements
     NSStackView* stackView = [[NSStackView alloc] init];
+    if (foo_lastfm::cfg_debug_enabled.get()) {
+        FB2K_console_formatter() << "Last.fm UI: NSStackView created";
+    }
+
     [stackView setOrientation:NSUserInterfaceLayoutOrientationVertical];
     [stackView setAlignment:NSLayoutAttributeLeading];
     [stackView setSpacing:8];
     [stackView setTranslatesAutoresizingMaskIntoConstraints:NO];
-    [self.view addSubview:stackView];
+    
+    if (foo_lastfm::cfg_debug_enabled.get()) {
+        FB2K_console_formatter() << "Last.fm UI: NSStackView configured";
+    }
 
-    // Set standard system margins
-    CGFloat inset = 19.0; // Adjustable margin size
+    [self.view addSubview:stackView];
+    if (foo_lastfm::cfg_debug_enabled.get()) {
+        FB2K_console_formatter() << "Last.fm UI: NSStackView added to view";
+    }
+
+    // Set standard margins
+    CGFloat inset = 19.0;
     [stackView.leadingAnchor constraintEqualToAnchor:self.view.leadingAnchor constant:inset].active = YES;
     [stackView.trailingAnchor constraintEqualToAnchor:self.view.trailingAnchor constant:-inset].active = YES;
     [stackView.topAnchor constraintEqualToAnchor:self.view.topAnchor constant:inset].active = YES;
     [stackView.bottomAnchor constraintEqualToAnchor:self.view.bottomAnchor constant:-inset].active = YES;
     
+    if (foo_lastfm::cfg_debug_enabled.get()) {
+        FB2K_console_formatter() << "Last.fm UI: NSStackView constraints set";
+    }
+
     // Add title label
     NSTextField* titleLabel = [[NSTextField alloc] init];
     [titleLabel setStringValue:@"Last.fm Scrobbler Settings"];
@@ -88,6 +150,11 @@ static std::string mask_show_first_last(const std::string &s, size_t first = 2, 
     [titleLabel setEditable:NO];
     [titleLabel setFont:[NSFont systemFontOfSize:15]];
     [stackView addArrangedSubview:titleLabel];
+    
+    if (foo_lastfm::cfg_debug_enabled.get()) {
+        FB2K_console_formatter() << "Last.fm UI: Title label added";
+        FB2K_console_formatter() << "Last.fm UI: StackView arranged subviews count: " << (int)stackView.arrangedSubviews.count;
+    }
 
     // Add spacer
     NSView* spacer1 = [[NSView alloc] init];
@@ -221,6 +288,12 @@ static std::string mask_show_first_last(const std::string &s, size_t first = 2, 
 
     // Update status label after UI setup
     [self updateStatusLabel];
+    
+    if (foo_lastfm::cfg_debug_enabled.get()) {
+        FB2K_console_formatter() << "Last.fm UI: setupUI completed";
+        FB2K_console_formatter() << "Last.fm UI: Final stackView subviews count: " << (int)stackView.arrangedSubviews.count;
+        FB2K_console_formatter() << "Last.fm UI: View hierarchy ready";
+    }
 }
 
 - (void)updateStatusLabel {
@@ -620,7 +693,18 @@ namespace foo_lastfm {
     class preferences_page_lastfm : public preferences_page {
     public:
         service_ptr instantiate() override {
-            return fb2k::wrapNSObject([fooLastfmMacPreferences new]);
+            if (foo_lastfm::cfg_debug_enabled.get()) {
+                FB2K_console_formatter() << "Last.fm UI: preferences_page instantiate() called";
+            }
+            auto controller = [fooLastfmMacPreferences new];
+            if (foo_lastfm::cfg_debug_enabled.get()) {
+                FB2K_console_formatter() << "Last.fm UI: fooLastfmMacPreferences controller created";
+            }
+            auto wrapped = fb2k::wrapNSObject(controller);
+            if (foo_lastfm::cfg_debug_enabled.get()) {
+                FB2K_console_formatter() << "Last.fm UI: NSObject wrapped for foobar2000";
+            }
+            return wrapped;
         }
         const char* get_name() override { return "Last.fm Scrobbler"; }
         GUID get_guid() override {
