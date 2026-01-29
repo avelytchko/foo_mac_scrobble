@@ -73,6 +73,7 @@ jobs:
           echo "::group::🧩 Xcode Build"
           mkdir -p build
           set -o pipefail
+          export MACOSX_DEPLOYMENT_TARGET=12.0
           xcodebuild -project foo_mac_scrobble.xcodeproj \
             -scheme foo_mac_scrobble \
             -configuration Release \
