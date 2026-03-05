@@ -1,0 +1,28 @@
+refactor: fix thread safety and remove dead code
+
+Critical fixes:
+- Add mutex protection for m_session_key to prevent race conditions
+- Replace C-style cast with static_cast in write_callback()
+- Fix clang-format violations in inline methods
+
+Dead code removal:
+- Remove unused sync method LastfmApi::authenticate()
+- Remove unused sync method LastfmApi::update_now_playing()
+- Remove unused async method LastfmApi::scrobble_track_async()
+
+Thread safety improvements:
+- Protect all m_session_key access with std::mutex
+- Fix concurrent access from main thread, network thread, and async callbacks
+- Add lock guards to 10 methods accessing shared session state
+
+Code quality:
+- Removed 93 lines of dead code
+- Eliminated potential race conditions
+- Improved type safety with static_cast
+- Fixed code formatting to pass clang-format checks
+
+Kept methods still in use:
+- LastfmApi::get_auth_url() - used in Mac preferences UI
+- LastfmApi::authenticate_async() - used in Mac preferences UI
+- LastfmApi::scrobble_track() - used by queue processor
+- LastfmApi::update_now_playing_async() - used by playback callback

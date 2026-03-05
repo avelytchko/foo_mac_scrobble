@@ -38,9 +38,10 @@ class LastfmApi
     // Checks if the current session is authenticated
     bool is_authenticated() const;
     // Checks if a valid session exists
-    bool has_saved_session() const { 
+    bool has_saved_session() const
+    {
         std::lock_guard<std::mutex> lock(m_session_mutex);
-        return !m_session_key.empty(); 
+        return !m_session_key.empty();
     }
     // Validates the current session
     bool validate_session();
@@ -51,9 +52,10 @@ class LastfmApi
     // Sets session key for authenticated requests
     void set_session_key(const char* session_key);
     // Returns the current session key
-    std::string get_session_key() const { 
+    std::string get_session_key() const
+    {
         std::lock_guard<std::mutex> lock(m_session_mutex);
-        return m_session_key; 
+        return m_session_key;
     }
     // Generates URL for user authentication
     std::string get_auth_url() const;
