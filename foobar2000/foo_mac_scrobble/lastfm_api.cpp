@@ -67,6 +67,7 @@ void LastfmApi::set_credentials(const char* api_key, const char* api_secret)
     // Clear session if credentials change
     if (new_api_key != m_api_key || new_api_secret != m_api_secret)
     {
+        std::lock_guard<std::mutex> lock(m_session_mutex);
         if (!m_session_key.empty() && foo_lastfm::cfg_debug_enabled.get())
         {
             FB2K_console_formatter() << "Last.fm: Credentials changed - clearing session";
@@ -85,101 +86,21 @@ void LastfmApi::set_session_key(const char* session_key)
     new_session_key.erase(std::remove_if(new_session_key.begin(), new_session_key.end(),
                                          [](unsigned char c) { return std::isspace(c) || c == '\0'; }),
                           new_session_key.end());
-    if (new_session_key != m_session_key)
     {
-        m_session_key = new_session_key;
-        log_debug("Last.fm: Session key set (len=%d, value=%s)", (int)m_session_key.length(),
-                  redact_secret(m_session_key).c_str());
+        std::lock_guard<std::mutex> lock(m_session_mutex);
+        if (new_session_key != m_session_key)
+        {
+            m_session_key = new_session_key;
+            log_debug("Last.fm: Session key set (len=%d, value=%s)", (int)m_session_key.length(),
+                      redact_secret(m_session_key).c_str());
+        }
     }
-}
-
-std::string LastfmApi::get_auth_url() const
-{
-    // Generate URL for Last.fm authentication
-    return std::string(AUTH_URL) + m_api_key;
 }
 
 bool LastfmApi::is_authenticated() const
 {
+    std::lock_guard<std::mutex> lock(m_session_mutex);
     return !m_session_key.empty();
-}
-
-bool LastfmApi::authenticate(const std::string& token)
-{
-    log_debug("Last.fm: Starting authentication (token length: %d)", (int)token.length());
-    std::map<std::string, std::string> params{
-        {"method", "auth.getSession"},
-        {"api_key", m_api_key},
-        {"token", token},
-    };
-
-    std::string response;
-    if (!send_api_request(params, response))
-        return false;
-
-    // Parse authentication response
-    try
-    {
-        auto json_data = json::parse(response);
-        if (json_data.contains("error"))
-        {
-            int code = json_data["error"].get<int>();
-            std::string msg = json_data["message"].get<std::string>();
-            FB2K_console_formatter() << "Last.fm ERROR: " << code << " - " << msg.c_str();
-            return false;
-        }
-
-        if (json_data.contains("session"))
-        {
-            auto session = json_data["session"];
-            m_session_key = session.value("key", "");
-
-            // Save session to file
-            std::string username = session.value("name", "");
-            if (foo_lastfm::g_session_manager)
-            {
-                foo_lastfm::g_session_manager->save_session(m_session_key, username);
-            }
-
-            foo_lastfm::cfg_username.set(username.c_str());
-            return true;
-        }
-
-        FB2K_console_formatter() << "Last.fm ERROR: Unexpected JSON format (missing session)";
-        return false;
-    }
-    catch (const std::exception& e)
-    {
-        FB2K_console_formatter() << "Last.fm JSON parse error: " << e.what();
-        return false;
-    }
-}
-
-bool LastfmApi::update_now_playing(const TrackInfo& track)
-{
-    if (!is_authenticated())
-        return false;
-    std::map<std::string, std::string> params{
-        {"method", "track.updateNowPlaying"},
-        {"api_key", m_api_key},
-        {"sk", m_session_key},
-        {"artist", track.artist},
-        {"track", track.track},
-    };
-    if (!track.album.empty())
-        params["album"] = track.album;
-    if (!track.album_artist.empty())
-        params["albumArtist"] = track.album_artist;
-    if (track.duration > 0)
-        params["duration"] = std::to_string(track.duration);
-    if (track.track_number > 0)
-        params["trackNumber"] = std::to_string(track.track_number);
-
-    std::string response;
-    bool ok = send_api_request(params, response);
-    if (!ok)
-        FB2K_console_formatter() << "Last.fm: Failed to update now playing";
-    return ok;
 }
 
 bool LastfmApi::scrobble_track(const TrackInfo& track)
@@ -187,10 +108,14 @@ bool LastfmApi::scrobble_track(const TrackInfo& track)
     if (!is_authenticated())
         return false;
 
-    std::map<std::string, std::string> params{
-        {"method", "track.scrobble"}, {"api_key", m_api_key}, {"sk", m_session_key},
-        {"artist", track.artist},     {"track", track.track}, {"timestamp", std::to_string(track.timestamp)},
-    };
+    std::map<std::string, std::string> params;
+    {
+        std::lock_guard<std::mutex> lock(m_session_mutex);
+        params = {
+            {"method", "track.scrobble"}, {"api_key", m_api_key}, {"sk", m_session_key},
+            {"artist", track.artist},     {"track", track.track}, {"timestamp", std::to_string(track.timestamp)},
+        };
+    }
     if (!track.album.empty())
         params["album"] = track.album;
     if (!track.album_artist.empty())
@@ -209,11 +134,17 @@ bool LastfmApi::scrobble_track(const TrackInfo& track)
 
 bool LastfmApi::validate_session()
 {
-    if (m_session_key.empty())
-        return false;
+    {
+        std::lock_guard<std::mutex> lock(m_session_mutex);
+        if (m_session_key.empty())
+            return false;
+    }
 
-    std::map<std::string, std::string> params{
-        {"method", "auth.getSessionInfo"}, {"api_key", m_api_key}, {"sk", m_session_key}};
+    std::map<std::string, std::string> params;
+    {
+        std::lock_guard<std::mutex> lock(m_session_mutex);
+        params = {{"method", "auth.getSessionInfo"}, {"api_key", m_api_key}, {"sk", m_session_key}};
+    }
 
     std::string response;
     CURLcode curl_res = CURLE_OK;
@@ -232,13 +163,21 @@ bool LastfmApi::validate_session()
     if (!ok || http_code == 403 || http_code == 401)
     {
         FB2K_console_formatter() << "Last.fm: Saved session is invalid (HTTP " << http_code << "), clearing...";
-        m_session_key.clear();
+        {
+            std::lock_guard<std::mutex> lock(m_session_mutex);
+            m_session_key.clear();
+        }
         if (foo_lastfm::g_session_manager)
             foo_lastfm::g_session_manager->clear_session();
         return false;
     }
 
-    FB2K_console_formatter() << "Last.fm: Session key validated (length: " << (int)m_session_key.length() << ")";
+    int session_key_len;
+    {
+        std::lock_guard<std::mutex> lock(m_session_mutex);
+        session_key_len = (int)m_session_key.length();
+    }
+    FB2K_console_formatter() << "Last.fm: Session key validated (length: " << session_key_len << ")";
     return true;
 }
 
@@ -290,7 +229,7 @@ size_t LastfmApi::write_callback(void* c, size_t s, size_t n, void* u)
 {
     // CURL callback to collect response data
     size_t t = s * n;
-    ((std::string*)u)->append((char*)c, t);
+    static_cast<std::string*>(u)->append(static_cast<const char*>(c), t);
     return t;
 }
 
@@ -406,7 +345,10 @@ bool LastfmApi::send_api_request(const std::map<std::string, std::string>& param
         {
             if (method != "auth.getSession" && method != "auth.getToken")
             {
-                m_session_key.clear();
+                {
+                    std::lock_guard<std::mutex> lock(m_session_mutex);
+                    m_session_key.clear();
+                }
                 foo_lastfm::cfg_session_key.set("");
                 if (foo_lastfm::cfg_debug_enabled.get())
                 {
@@ -478,6 +420,12 @@ bool LastfmApi::send_api_request(const std::map<std::string, std::string>& param
     return true;
 }
 
+std::string LastfmApi::get_auth_url() const
+{
+    // Generate URL for Last.fm authentication
+    return std::string(AUTH_URL) + m_api_key;
+}
+
 void LastfmApi::execute_async_request(const std::map<std::string, std::string>& params,
                                       std::function<void(bool success, const std::string& response)> callback)
 {
@@ -532,11 +480,15 @@ void LastfmApi::authenticate_async(const std::string& token, std::function<void(
                                       if (json_data.contains("session"))
                                       {
                                           auto session = json_data["session"];
-                                          m_session_key = session.value("key", "");
+                                          std::string session_key = session.value("key", "");
                                           std::string username = session.value("name", "");
+                                          {
+                                              std::lock_guard<std::mutex> lock(m_session_mutex);
+                                              m_session_key = session_key;
+                                          }
                                           if (foo_lastfm::g_session_manager)
                                           {
-                                              foo_lastfm::g_session_manager->save_session(m_session_key, username);
+                                              foo_lastfm::g_session_manager->save_session(session_key, username);
                                           }
                                           if (!username.empty())
                                           {
@@ -579,7 +531,10 @@ void LastfmApi::update_now_playing_async(const TrackInfo& track)
     std::map<std::string, std::string> params;
     params["method"] = "track.updateNowPlaying";
     params["api_key"] = m_api_key;
-    params["sk"] = m_session_key;
+    {
+        std::lock_guard<std::mutex> lock(m_session_mutex);
+        params["sk"] = m_session_key;
+    }
     params["artist"] = track.artist;
     params["track"] = track.track;
     params["album"] = track.album;
@@ -596,41 +551,5 @@ void LastfmApi::update_now_playing_async(const TrackInfo& track)
                               // Silently ignore result for now playing
                               (void)success;
                               (void)response;
-                          });
-}
-
-void LastfmApi::scrobble_track_async(const TrackInfo& track)
-{
-    if (!is_authenticated() || track.artist.empty() || track.track.empty())
-    {
-        return;
-    }
-
-    std::map<std::string, std::string> params;
-    params["method"] = "track.scrobble";
-    params["api_key"] = m_api_key;
-    params["sk"] = m_session_key;
-    params["artist"] = track.artist;
-    params["track"] = track.track;
-    params["timestamp"] = std::to_string(track.timestamp);
-    params["album"] = track.album;
-    params["albumArtist"] = track.album_artist;
-    params["duration"] = std::to_string(track.duration);
-    if (track.track_number > 0)
-    {
-        params["trackNumber"] = std::to_string(track.track_number);
-    }
-
-    execute_async_request(params,
-                          [](bool success, const std::string& response)
-                          {
-                              if (!success && foo_lastfm::cfg_debug_enabled.get())
-                              {
-                                  FB2K_console_formatter() << "Last.fm: Scrobble failed silently in background";
-                              }
-                              else if (success && foo_lastfm::cfg_debug_enabled.get())
-                              {
-                                  FB2K_console_formatter() << "Last.fm: Scrobble successful";
-                              }
                           });
 }
