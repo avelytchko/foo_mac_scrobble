@@ -2,7 +2,7 @@
 
 # foo_mac_scrobble — Last.fm Scrobbler for foobar2000 macOS
 
-[![Last Release](https://img.shields.io/github/v/release/avelytchko/foo_mac_scrobble?logo=github&label=latest&style=flat-square)](https://github.com/avelytchko/foo_mac_scrobble/releases)
+[![Last Release](https://img.shields.io/github/v/release/avelytchko/foo_mac_scrobble?logo=github&label=latest)](https://github.com/avelytchko/foo_mac_scrobble/releases)
 [![Build](https://img.shields.io/github/actions/workflow/status/avelytchko/foo_mac_scrobble/build_foobar.yml?branch=main&logo=github&style=flat-square)](https://nightly.link/avelytchko/foo_mac_scrobble/workflows/build_foobar/main)
 [![Downloads](https://img.shields.io/github/downloads/avelytchko/foo_mac_scrobble/total?logo=github&style=flat-square)](https://github.com/avelytchko/foo_mac_scrobble/releases/latest)
 
