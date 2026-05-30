@@ -13,7 +13,7 @@ body:
     attributes:
       label: Component Version
       description: Which version of foo_mac_scrobble are you using?
-      placeholder: e.g., 0.1.4
+      placeholder: e.g., 0.1.5
     validations:
       required: true
 
