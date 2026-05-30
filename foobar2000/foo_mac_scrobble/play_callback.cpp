@@ -24,7 +24,9 @@ class scrobble_callback : public play_callback_static
     LastfmApi::TrackInfo m_current_track;
     double m_length = 0;
     double m_threshold = 0;
+    double m_listened = 0; // accumulated real listened time (seconds), not position
     bool m_scrobbled = false;
+    bool m_seek_pending = false; // drop the display tick a seek may emit
 
   public:
     unsigned get_flags() override
@@ -45,6 +47,8 @@ class scrobble_callback : public play_callback_static
         try
         {
             m_scrobbled = false;
+            m_listened = 0;
+            m_seek_pending = false;
             static_api_ptr_t<playback_control> playback_control;
             if (!playback_control->is_playing())
                 return;
@@ -133,11 +137,30 @@ class scrobble_callback : public play_callback_static
 
     void on_playback_time(double p_time) override
     {
-        if (!cfg_enabled.get() || m_scrobbled || p_time < m_threshold)
+        (void)p_time; // decision uses listened time, not playback position
+
+        if (!cfg_enabled.get() || m_scrobbled)
             return;
 
         // Don't scrobble if current track data is empty (e.g., after switching to radio streams)
         if (m_current_track.artist.empty() || m_current_track.track.empty())
+            return;
+
+        // Must guard here: on_playback_new_track sets m_threshold before its own
+        // 30s early-return, leaving a small stale threshold a short track would cross.
+        if (m_length < 30.0)
+            return;
+
+        // Drop the display tick a seek may emit, so scrubbing isn't counted as listened.
+        if (m_seek_pending)
+        {
+            m_seek_pending = false;
+            return;
+        }
+
+        // One tick ~= one second of real playback; seeks add no ticks.
+        m_listened += 1.0;
+        if (m_listened < m_threshold)
             return;
 
         try
@@ -146,9 +169,8 @@ class scrobble_callback : public play_callback_static
             if (!playback_control->is_playing())
                 return;
 
-            // Prepare the track for scrobbling
+            // copy already carries the start-of-play timestamp from on_playback_new_track
             auto copy = m_current_track;
-            copy.timestamp = time(nullptr) - static_cast<time_t>(p_time);
 
             if (g_lastfm_api && g_lastfm_api->has_saved_session() && g_scrobble_queue)
             {
@@ -171,11 +193,10 @@ class scrobble_callback : public play_callback_static
 
     void on_playback_seek(double p_time) override
     {
-        // If seeked back below threshold, allow re-scrobble
-        if (p_time < m_threshold)
-        {
-            m_scrobbled = false;
-        }
+        // A seek must not advance listened time; drop the next tick. No re-arm of
+        // m_scrobbled — one scrobble per play.
+        (void)p_time;
+        m_seek_pending = true;
     }
 
     void on_playback_stop(play_control::t_stop_reason p_reason) override
@@ -183,6 +204,8 @@ class scrobble_callback : public play_callback_static
         m_scrobbled = false;
         m_length = 0;
         m_threshold = 0;
+        m_listened = 0;
+        m_seek_pending = false;
         // Clear current track data to prevent stale data from being used
         m_current_track = LastfmApi::TrackInfo();
     }
