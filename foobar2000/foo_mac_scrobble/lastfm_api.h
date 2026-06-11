@@ -10,6 +10,7 @@
 #include <ctime>
 #include <curl/curl.h>
 #include <map>
+#include <mutex>
 #include <string>
 
 class LastfmApi
@@ -34,18 +35,16 @@ class LastfmApi
         TrackInfo() : duration(0), track_number(0), timestamp(0) {}
     };
 
-    // Authenticates user with a token (synchronous)
-    bool authenticate(const std::string& token);
-    // Generates URL for user authentication
-    std::string get_auth_url() const;
     // Checks if the current session is authenticated
     bool is_authenticated() const;
     // Checks if a valid session exists
-    bool has_saved_session() const { return !m_session_key.empty(); }
+    bool has_saved_session() const
+    {
+        std::lock_guard<std::mutex> lock(m_session_mutex);
+        return !m_session_key.empty();
+    }
     // Validates the current session
     bool validate_session();
-    // Updates "now playing" status on Last.fm
-    bool update_now_playing(const TrackInfo& track);
     // Submits a track for scrobbling
     bool scrobble_track(const TrackInfo& track);
     // Sets API key and secret for authentication
@@ -53,13 +52,17 @@ class LastfmApi
     // Sets session key for authenticated requests
     void set_session_key(const char* session_key);
     // Returns the current session key
-    std::string get_session_key() const { return m_session_key; }
+    std::string get_session_key() const
+    {
+        std::lock_guard<std::mutex> lock(m_session_mutex);
+        return m_session_key;
+    }
+    // Generates URL for user authentication
+    std::string get_auth_url() const;
     // Authenticates user with a token (asynchronous)
     void authenticate_async(const std::string& token, std::function<void(bool success)> callback);
     // Updates "now playing" status on Last.fm (asynchronous)
     void update_now_playing_async(const TrackInfo& track);
-    // Submits a track for scrobbling (asynchronous)
-    void scrobble_track_async(const TrackInfo& track);
 
   private:
     // API key for Last.fm
@@ -68,6 +71,8 @@ class LastfmApi
     std::string m_api_secret;
     // Session key for authenticated requests
     std::string m_session_key;
+    // Mutex for thread-safe access to session key
+    mutable std::mutex m_session_mutex;
     // Executes an API request in a background thread
     void execute_async_request(const std::map<std::string, std::string>& params,
                                std::function<void(bool success, const std::string& response)> callback);
