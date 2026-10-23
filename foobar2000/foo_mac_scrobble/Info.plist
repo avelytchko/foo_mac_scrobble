@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>FB2KUpdateSource</key>
+	<dict>
+		<key>source</key>
+		<string>github</string>
+		<key>owner</key>
+		<string>avelytchko</string>
+		<key>repo</key>
+		<string>foo_mac_scrobble</string>
+	</dict>
+</dict>
+</plist>
